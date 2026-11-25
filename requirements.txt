@@ -1,0 +1,10 @@
+# Exact pins, not lower bounds, and chosen so that ONE wheel bundle installs on
+# every interpreter pyproject.toml declares.
+#
+# numpy 2.5.x and scipy 1.18.x publish no cp311 wheels, so pinning them would
+# make the validated set uninstallable on Python 3.11 -- which the competition
+# machine may well be running. 2.4.6 / 1.17.1 are the newest releases that carry
+# wheels for 3.11, 3.12, 3.13 and 3.14 alike.
+numpy==2.4.6
+scipy==1.17.1
+PyYAML==6.0.3

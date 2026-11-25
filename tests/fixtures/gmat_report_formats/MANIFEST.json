@@ -1,0 +1,347 @@
+{
+  "A_default": {
+    "fixture_lines": 40,
+    "full_bytes": 1048773,
+    "full_lines": 5731,
+    "full_sha256": "3efc84a89eeec767024d18aed66cb053c291a63170356d3a5a0c9cdb48d8244d",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "' '",
+      "FixedWidth": "true",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "true",
+      "ZeroFill": "Off"
+    }
+  },
+  "B_noheaders": {
+    "fixture_lines": 40,
+    "full_bytes": 928260,
+    "full_lines": 5730,
+    "full_sha256": "25edd248de4fc4cf1f8ecd996b2fd209d6ce5b5abf0576d0f46d0fa715305ea4",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "' '",
+      "FixedWidth": "true",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "false",
+      "ZeroFill": "Off"
+    }
+  },
+  "C_comma": {
+    "fixture_lines": 40,
+    "full_bytes": 1048773,
+    "full_lines": 5731,
+    "full_sha256": "2628c07231308fdd0c16083774d0f2e2b3494153afabed2cbd566afa0cf24325",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "','",
+      "FixedWidth": "true",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "true",
+      "ZeroFill": "Off"
+    }
+  },
+  "D_notfixed": {
+    "fixture_lines": 40,
+    "full_bytes": 730115,
+    "full_lines": 5731,
+    "full_sha256": "2d786d5c7bf0cdb9e866fcd0784337392e2bd5013db0686f1e6f01d9d28dfed3",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "' '",
+      "FixedWidth": "false",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "true",
+      "ZeroFill": "Off"
+    }
+  },
+  "E_narrow": {
+    "fixture_lines": 40,
+    "full_bytes": 1025849,
+    "full_lines": 5731,
+    "full_sha256": "9d41383e433db0e5242ce7478cd38aa6f8500cb0fb514b8d2b672ed57b146cd4",
+    "settings": {
+      "ColumnWidth": "10",
+      "Delimiter": "' '",
+      "FixedWidth": "true",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "true",
+      "ZeroFill": "Off"
+    }
+  },
+  "F_comma_nofixed": {
+    "fixture_lines": 40,
+    "full_bytes": 730115,
+    "full_lines": 5731,
+    "full_sha256": "7de9b73a8ff3c5b265d7b0246d289102d01546a86da0722d932befd339a656dd",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "','",
+      "FixedWidth": "false",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "true",
+      "ZeroFill": "Off"
+    }
+  },
+  "G_noheader_comma": {
+    "fixture_lines": 40,
+    "full_bytes": 928260,
+    "full_lines": 5730,
+    "full_sha256": "25edd248de4fc4cf1f8ecd996b2fd209d6ce5b5abf0576d0f46d0fa715305ea4",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "','",
+      "FixedWidth": "true",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "false",
+      "ZeroFill": "Off"
+    }
+  },
+  "H_zerofill": {
+    "fixture_lines": 40,
+    "full_bytes": 1048773,
+    "full_lines": 5731,
+    "full_sha256": "a888727a58a11fe6f4633e181f19d9f5184ad5b082e6b8237d5e8edcb6df3129",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "' '",
+      "FixedWidth": "true",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "true",
+      "ZeroFill": "On"
+    }
+  },
+  "I_rightjust": {
+    "fixture_lines": 40,
+    "full_bytes": 1048773,
+    "full_lines": 5731,
+    "full_sha256": "4683bea9a7813efa27947039545d03d98288967e71a5842a3909f4f6f53280de",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "' '",
+      "FixedWidth": "true",
+      "LeftJustify": "Off",
+      "Precision": "16",
+      "WriteHeaders": "true",
+      "ZeroFill": "Off"
+    }
+  },
+  "J_lowprec": {
+    "fixture_lines": 40,
+    "full_bytes": 1048773,
+    "full_lines": 5731,
+    "full_sha256": "d21e89e13f60a35276a2a9cda6de480d68a0936707adaecb378c7a76085b2647",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "' '",
+      "FixedWidth": "true",
+      "LeftJustify": "On",
+      "Precision": "6",
+      "WriteHeaders": "true",
+      "ZeroFill": "Off"
+    }
+  },
+  "K_tab": {
+    "fixture_lines": 40,
+    "full_bytes": 1048773,
+    "full_lines": 5731,
+    "full_sha256": "4b244f0adfffecf4a26cb6341ac2606243a5d8571de99537fb7cc56d70723e80",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "'\\t'",
+      "FixedWidth": "true",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "true",
+      "ZeroFill": "Off"
+    }
+  },
+  "L_semicolon": {
+    "fixture_lines": 40,
+    "full_bytes": 1048773,
+    "full_lines": 5731,
+    "full_sha256": "a70fa391c25a9adb8fb5590b10f3ff9a0db4f36d14f0cd8bc5fa3c4176502a64",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "';'",
+      "FixedWidth": "true",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "true",
+      "ZeroFill": "Off"
+    }
+  },
+  "M_noheader_comma_nofixed": {
+    "fixture_lines": 40,
+    "full_bytes": 729951,
+    "full_lines": 5730,
+    "full_sha256": "692cd4df6cc27a0edbd068c9530a71bbff161bc46bdad2fc013deddc60a9b80e",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "','",
+      "FixedWidth": "false",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "false",
+      "ZeroFill": "Off"
+    }
+  },
+  "N_noheader_tab": {
+    "fixture_lines": 40,
+    "full_bytes": 928260,
+    "full_lines": 5730,
+    "full_sha256": "25edd248de4fc4cf1f8ecd996b2fd209d6ce5b5abf0576d0f46d0fa715305ea4",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "'\\t'",
+      "FixedWidth": "true",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "false",
+      "ZeroFill": "Off"
+    }
+  },
+  "O_noheader_narrow": {
+    "fixture_lines": 40,
+    "full_bytes": 695571,
+    "full_lines": 5730,
+    "full_sha256": "07509d9b0699e41ceab343f868cb843e286304da8c13138758645d4920cca21a",
+    "settings": {
+      "ColumnWidth": "10",
+      "Delimiter": "' '",
+      "FixedWidth": "true",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "false",
+      "ZeroFill": "Off"
+    }
+  },
+  "P_tab_character": {
+    "fixture_lines": 40,
+    "full_bytes": 1048773,
+    "full_lines": 5731,
+    "full_sha256": "347ac72d7d208dd5d3f5b3f34236e2bc5086070ba735960d245fc29bc5bac6e2",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "'\t'",
+      "FixedWidth": "true",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "true",
+      "ZeroFill": "Off"
+    }
+  },
+  "Q_tab_nofixed": {
+    "fixture_lines": 40,
+    "full_bytes": 730115,
+    "full_lines": 5731,
+    "full_sha256": "2fac26a1b46d7b38e1b9764f483c5553514228aec5b6f476b746396978c7d4bc",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "'\\t'",
+      "FixedWidth": "false",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "true",
+      "ZeroFill": "Off"
+    }
+  },
+  "R_two_characters": {
+    "fixture_lines": 40,
+    "full_bytes": 730115,
+    "full_lines": 5731,
+    "full_sha256": "850bfb29b7f66a26d97e01220bbef49304ac7ed1959f836195f99a88c5725e3b",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "';,'",
+      "FixedWidth": "false",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "true",
+      "ZeroFill": "Off"
+    }
+  },
+  "S_empty": {
+    "fixture_lines": 40,
+    "full_bytes": 1048773,
+    "full_lines": 5731,
+    "full_sha256": "3efc84a89eeec767024d18aed66cb053c291a63170356d3a5a0c9cdb48d8244d",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "''",
+      "FixedWidth": "true",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "true",
+      "ZeroFill": "Off"
+    }
+  },
+  "T_no_delimiter": {
+    "fixture_lines": 40,
+    "full_bytes": 1048773,
+    "full_lines": 5731,
+    "full_sha256": "3efc84a89eeec767024d18aed66cb053c291a63170356d3a5a0c9cdb48d8244d",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": null,
+      "FixedWidth": "true",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "true",
+      "ZeroFill": "Off"
+    }
+  },
+  "U_unquoted_comma": {
+    "fixture_lines": 40,
+    "full_bytes": 1048773,
+    "full_lines": 5731,
+    "full_sha256": "2628c07231308fdd0c16083774d0f2e2b3494153afabed2cbd566afa0cf24325",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": ",",
+      "FixedWidth": "true",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "true",
+      "ZeroFill": "Off"
+    }
+  },
+  "V_noheader_rightjust_comma": {
+    "fixture_lines": 40,
+    "full_bytes": 928260,
+    "full_lines": 5730,
+    "full_sha256": "818b6d11c8c49d31326280ea476b12a1c57f8b7c387430abe8e07de5c764053e",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "','",
+      "FixedWidth": "true",
+      "LeftJustify": "Off",
+      "Precision": "16",
+      "WriteHeaders": "false",
+      "ZeroFill": "Off"
+    }
+  },
+  "W_noheader_semicolon_nofixed": {
+    "fixture_lines": 40,
+    "full_bytes": 729951,
+    "full_lines": 5730,
+    "full_sha256": "06c31a690d0b497c9d040ec149b4e0507712d941f67a7ebd83b527ef4f03133a",
+    "settings": {
+      "ColumnWidth": "23",
+      "Delimiter": "';'",
+      "FixedWidth": "false",
+      "LeftJustify": "On",
+      "Precision": "16",
+      "WriteHeaders": "false",
+      "ZeroFill": "Off"
+    }
+  }
+}

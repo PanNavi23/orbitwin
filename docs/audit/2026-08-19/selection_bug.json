@@ -1,0 +1,11 @@
+{
+  "A_id": "C-7aaa60737b624b62",
+  "A_verified": false,
+  "A_warnings": [
+    "GMAT verification failed: simulated GMAT rejection"
+  ],
+  "B_id": "C-0d9e75f3fac5834a",
+  "B_verified": true,
+  "selected_id": "C-7aaa60737b624b62",
+  "selected_verified": false
+}

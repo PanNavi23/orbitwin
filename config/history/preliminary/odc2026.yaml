@@ -1,0 +1,64 @@
+# HISTORICAL. ODC 2026 preliminary, 2026-09-05, under the 2026/05/20 rules;
+# kept to reproduce that submission, never for the ranking round or the duel.
+#
+# The organizer's script declares no ImpulsiveBurn and no Maneuver, so nothing
+# in it says which spacecraft the contestant flies. The rules do: 太空船 A
+# (SC_Alien) is gravity-only, 太空船 H (SC_Human) is the one that maneuvers.
+pursuer_name: SC_Human
+target_name: SC_Alien
+
+search:
+  seed: 20260818
+  one_burn_samples: 256
+  one_burn_grid_burns: 23
+  one_burn_grid_arrivals: 47
+  max_revolutions: 1
+  min_tof_s: 100.0
+  dense_window_fraction: 0.85
+  workers: 0
+  keep_candidates: 300
+  render_top: 25
+  endpoint_tolerance_km: 0.02
+  event_refine_top: 20
+  event_step_s: 2.0
+  two_burn_enabled: true
+  two_burn_samples: 256
+
+policy:
+  mu_km3_s2: 398600.4418
+  intercept_radius_km: 5.0
+  dv_limit_km_s: 1.5
+  dv_safe_limit_km_s: 1.495
+  min_burn_separation_s: 100.0
+  safe_burn_separation_s: 101.0
+  final_padding_s: 20.0
+  allow_zero_vector_unused_slots: true
+  require_synchronized_propagation: true
+
+# Announced on the day (photo of the 2026/08/29 初賽版 rules, §6 eq. 3).
+# The sheet prints the four numbers and not the input units. Both are now
+# settled by the organizer's own scoring of our submission, which returned
+# C = 23815.43, D = 2.394, E = 6.996 and a total of 73.0203.
+#
+# delta_v_unit is km/s: 25/(1+e^{1.1862(6.996-9.0643)}) = 23.0203, and
+# 50 + 0 + 23.0203 is exactly the 73.0203 they gave. Read as m/s the exponent
+# overflows, the term is 0, and the total would have been 50.0000.
+#
+# time_unit is s: Ct = 6505.65 sits inside the 23815 s window, and any coarser
+# unit pushes the midpoint past the horizon so the term would be a constant 25
+# for every team.
+score:
+  kt: 0.003982
+  ct: 6505.65
+  kv: 1.1862
+  cv: 9.0643
+  time_unit: s
+  delta_v_unit: km/s
+
+gmat:
+  verify_top: 0
+  timeout_s: 600.0
+  reruns: 3
+  workers: 4
+  diagnostic_report_name: orbitwin_diagnostic.txt
+  compare_report_bytes: true

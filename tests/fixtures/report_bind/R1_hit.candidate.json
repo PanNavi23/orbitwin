@@ -1,0 +1,114 @@
+{
+ "analytical_endpoint_error_km": 20.02380503672024,
+ "branch": "prograde-long-M0-P0",
+ "burns": [
+  {
+   "dv_inertial_km_s": [
+    0.1587222413116275,
+    0.031197795515318243,
+    0.1450739659057699
+   ],
+   "dv_script_km_s": [
+    0.10484058784750012,
+    0.18946230065701242,
+    0.01802763670515481
+   ],
+   "frame": [
+    "Local",
+    "Earth",
+    "VNB"
+   ],
+   "magnitude_km_s": 0.21728439409131667,
+   "slot_index": 0,
+   "time_s": 0.001
+  }
+ ],
+ "candidate_id": "C-087825b55a25b89d",
+ "distance_at_completion_km": 5.0,
+ "gmat_run_id": "20261105T033633Z-07d7e8a257",
+ "intercept_time_s": 4301.437730749603,
+ "metadata": {
+  "alignment_minimum_distance_km": null,
+  "analytical_before_gmat": {
+   "intercept_time_s": 4301.021881041279,
+   "minimum_distance_km": 0.16362113835968664,
+   "score": 96.39200863283293,
+   "successful": true
+  },
+  "arrival_time_s": 4302.527733696,
+  "corrected_from": "C-872ae6b8c30edc34",
+  "event_refined": true,
+  "frontier": "robust",
+  "gmat_correction": {
+   "aim_km": 0.5,
+   "closest_approach_km": 0.16362113835968664,
+   "closest_approach_time_s": 4302.40624541328,
+   "converged": true,
+   "first_entry_time_s": 4301.021881041279,
+   "miss_at_arrival_km": 0.46808128138849997,
+   "planned_arrival_s": 4302.527733696,
+   "round": 2,
+   "run_id": "20261105T031352Z-40c7369e7c",
+   "two_body_miss_at_arrival_km": 20.02380503672024
+  },
+  "gmat_event": {
+   "distance_at_end_km": 3.500001400709369,
+   "first_entry_segment_dt_s": 0.43673099717125297,
+   "first_entry_time_s": 4301.021881040959,
+   "flown_script_sha256": "f50afa9c0f0ff10aee17745ba644d264317dc47c1d4a345423c7c7974f85c375",
+   "interpolated_minimum_distance_km": 3.500001400709369,
+   "interpolated_minimum_distance_time_s": 4301.437730749603,
+   "minimum_distance_km": 3.500001400709369,
+   "minimum_distance_time_s": 4301.437730749603,
+   "minimum_geodetic_altitude_km": 430.4193884913575,
+   "samples_inside_radius": 1,
+   "stop_depth_km": 1.499998599290631,
+   "stop_depth_setting_km": 1.5,
+   "stop_time_s": 4301.437731235679
+  },
+  "horizon_s": 6711.667,
+  "minimum_geodetic_altitude_km": 430.4193884913575,
+  "minimum_pursuer_radius_km": 6799.999999999999,
+  "renderable": true,
+  "scenario_sha256": "d90fec826bbdc6f4bea150c84e254b1e6c68e98236e636d03d78b0681b917acc",
+  "scored_miss": false,
+  "stage_claimed_by_file": "public_gmat_verified",
+  "time_origin_offset_s": 0.0
+ },
+ "minimum_distance_km": 3.500001400709369,
+ "penalties": [],
+ "score": 96.39083960116564,
+ "score_components": {
+  "delta_v_score": 22.366519280540228,
+  "distance_score": 50.0,
+  "penalty_score": 0.0,
+  "raw_score": 96.39083960116564,
+  "time_score": 24.02432032062541
+ },
+ "score_is_stale": false,
+ "stage": "public_gmat_verified",
+ "stage_evidence": {
+  "certification_without_organizer_build": {
+   "exact_runs": [
+    "20261105T033637Z-c64f627911",
+    "20261105T033640Z-fa8bba9387",
+    "20261105T033644Z-d05cb2740b"
+   ],
+   "parity_run": "20261105T033647Z-b3088201e7"
+  },
+  "public_gmat_verified": {
+   "derived_startup_sha256": "f6738048a8a83af777ad3f1ab04055e7e215eb0d0a5f1995725a9f7415e52441",
+   "executable_sha256": "f7cf5b3188902353ed4245bb21c22c1afa0451efdd221b7e19f6a74dc7ed1d93",
+   "organizer_compatible": false,
+   "run_id": "20261105T033633Z-07d7e8a257",
+   "startup_sha256": "306597283230abc86d953491c9e401f2c9139ad9cdefa1f944508da9f631fddf"
+  }
+ },
+ "successful": true,
+ "total_dv_km_s": 0.21728439409131667,
+ "vector_sum_dv_km_s": 0.21728439409131667,
+ "verified_by_gmat": true,
+ "warnings": [
+  "GMAT first entry rests on 1 report sample(s) inside the 5 km sphere (segment dt 0.43673099717125297 s); the epoch is interpolated"
+ ]
+}

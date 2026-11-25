@@ -1,0 +1,179 @@
+name: CI
+
+# A `pull_request` run reads this file from the merge of head into base, so a
+# branch cut before a change here runs the changed copy. A pull request with a
+# merge conflict gets no run; check its branch with the `workflow_dispatch`
+# input below. A dispatch with `ref` runs that ref on the repository's runners,
+# a fork pull request's `refs/pull/N/head` included, and so does a push of
+# someone else's commits to this repository: read that code first.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch or SHA to check; empty checks the commit dispatched on
+        required: false
+
+permissions:
+  contents: read
+
+# A push to main gets a group per commit, so two quick merges both finish.
+# A PR or dispatch run still cancels the one it supersedes; a dispatch with
+# `ref` shares that ref's group, so `refs/pull/N/merge` shares PR N's.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event_name == 'push' && github.sha || inputs.ref || github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONPATH: src
+  # One BLAS thread per process: a test leg already runs a worker per CPU it
+  # may use.
+  OPENBLAS_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+  # uv's own CPython builds, not the runner's system python3, which an OS update
+  # can patch under an unchanged version string.
+  UV_MANAGED_PYTHON: "1"
+
+# Only a private repository runs a job on the runners its repository variable
+# names (ORBITWIN_RUNS_ON_TEST, ORBITWIN_RUNS_ON_CHECKS, each a JSON list of
+# labels); every other run takes GitHub's ubuntu-latest. In
+# `private && var || default`, `&&` binds before `||` and each returns an operand.
+# Without the guard, a public copy that kept the variables would queue each job
+# for runners it cannot use until GitHub cancels it after 24 h
+# (docs.github.com/en/actions/reference/limits).
+#
+# A fork's pull request runs the fork's copy of this file, which can name any
+# runs-on, so a repository using this workflow must also meet these conditions:
+# - public: no runner of yours is available to it, neither through a runner
+#   group that serves public repositories nor registered on the repository;
+# - private, with runners of yours: keep "Run workflows from fork pull requests"
+#   and "Send secrets to workflows from pull requests" (send_secrets_and_variables
+#   in the API) off. With the first on, a fork's pull request runs in this
+#   repository, and its copy of this file can name your runners' labels; with
+#   the second on too, it also gets the variables.
+#
+# A re-run of a run started before the repository turned public still reads
+# `private: true`, and so the variables.
+#
+# Every checkout passes inputs.ref, which is empty unless dispatched with one;
+# empty makes actions/checkout pin the event's github.sha, so a run tests the
+# commit that triggered it and not whatever the branch points at by then.
+jobs:
+  test:
+    name: test (py${{ matrix.python-version }})
+    runs-on: ${{ fromJSON(github.event.repository.private && vars.ORBITWIN_RUNS_ON_TEST || '"ubuntu-latest"') }}
+    # 45 min when a private repository sets ORBITWIN_RUNS_ON_TEST, which must
+    # name only its own runners. On ours, on 2026-11-23, a leg took 3-7 min on
+    # 16 CPUs and 16-33 min on the failover host, so 45 leaves 1.4x there.
+    # To use GitHub's runners, unset it: 90 min. A leg takes about 27-34 min on
+    # GitHub's public 4-vCPU runner and about 54-71 min on its private 2-vCPU
+    # runner, scaled from the 803 s 4-CPU lower bound and the 2026-10-31 GitHub
+    # legs: on 2026-11-23 the exported tree's fast suite, about 4950 tests, took
+    # 803 s under `taskset -c 0-3` on an i5-14500; on 2026-10-31 GitHub's
+    # private 2-vCPU hosts ran 653-657 tests serially in 342-878 s a leg.
+    timeout-minutes: ${{ github.event.repository.private && vars.ORBITWIN_RUNS_ON_TEST != '' && 45 || 90 }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # pyproject.toml declares >=3.11 with no upper bound, so the top of the
+        # range is whatever the operator's machine ships -- Ubuntu 26.04 already
+        # answers `python3` with 3.14, and scripts/fetch_offline_wheels.sh
+        # carries cp314 wheels for exactly that reason. Checking only up to 3.13
+        # left the version most likely to be used unchecked. 3.11 and 3.14 are
+        # the declared floor and the practical ceiling. pyproject's classifiers
+        # name every version in between, so each one is tested here too.
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
+    steps:
+      # Each action is pinned to a commit, its version in the comment: a tag can
+      # move or be deleted, and the job would run whatever the name then resolves to.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: ${{ inputs.ref }}
+
+      # Python, uv's cache and bin dir, and the tests' temp files all go under
+      # RUNNER_TEMP, which the runner empties after the job. Two tests run files
+      # they write to TMPDIR, so it must not be a noexec /tmp.
+      - name: Keep the job's files inside the job
+        run: |
+          mkdir -p "$RUNNER_TEMP/tmp"
+          echo "TMPDIR=$RUNNER_TEMP/tmp" >> "$GITHUB_ENV"
+          echo "UV_CACHE_DIR=$RUNNER_TEMP/uv-cache" >> "$GITHUB_ENV"
+          echo "UV_PYTHON_INSTALL_DIR=$RUNNER_TEMP/uv-python" >> "$GITHUB_ENV"
+          echo "XDG_BIN_HOME=$RUNNER_TEMP/bin" >> "$GITHUB_ENV"
+
+      # The uv version is pinned so the installer, and the CPython patch release it
+      # picks, change in a commit. No Actions cache: every leg would share one key
+      # across Python versions.
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "0.13.6"
+          enable-cache: false
+
+      # xdist only here, so the offline wheel bundle does not need it. Named on
+      # the command line, not in a file, so a branch cut before it still installs.
+      # The fake GmatConsole runs as `python3` from PATH: put this leg's first.
+      - name: Install
+        run: |
+          uv venv --python ${{ matrix.python-version }} .venv
+          # A branch cut before vendor/wheels/constraints.txt existed still installs.
+          constraints=()
+          [ -f vendor/wheels/constraints.txt ] && constraints=(-c vendor/wheels/constraints.txt)
+          uv pip install --python .venv/bin/python -r requirements-dev.txt \
+            "${constraints[@]}" pytest-xdist==3.8.0 execnet==2.1.2
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+
+      - name: Byte-compile
+        run: .venv/bin/python -m compileall -q src tests scripts
+
+      - name: Executable bits survived checkout
+        # tests/integration/test_gmat_runner.py runs the fake console as a
+        # program. A lost mode bit fails four tests with PermissionError, which
+        # reads like a logic failure and is not one, so check the bit directly
+        # and say so.
+        run: |
+          test -x scripts/fake_gmat_console.py \
+            || { echo "::error file=scripts/fake_gmat_console.py::not executable (see PR #1)"; exit 1; }
+
+      # load with one test per send, not worksteal: 181-183 s against 210-212 s at -n 20 on an i5-14500 (2 runs each, 2026-11-24), 164.5 s against 185.9 s simulated at 16 workers.
+      - name: Fast suite
+        run: make test PYTHON=.venv/bin/python PYTEST_ARGS="-n auto --dist load --maxschedchunk 1 --durations=25"
+
+  # lint and typecheck share one checkout and install, and so one runner.
+  # typecheck runs even when lint fails, so both always report.
+  checks:
+    runs-on: ${{ fromJSON(github.event.repository.private && vars.ORBITWIN_RUNS_ON_CHECKS || '"ubuntu-latest"') }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: ${{ inputs.ref }}
+      - name: Keep the job's files inside the job
+        run: |
+          mkdir -p "$RUNNER_TEMP/tmp"
+          echo "TMPDIR=$RUNNER_TEMP/tmp" >> "$GITHUB_ENV"
+          echo "UV_CACHE_DIR=$RUNNER_TEMP/uv-cache" >> "$GITHUB_ENV"
+          echo "UV_PYTHON_INSTALL_DIR=$RUNNER_TEMP/uv-python" >> "$GITHUB_ENV"
+          echo "XDG_BIN_HOME=$RUNNER_TEMP/bin" >> "$GITHUB_ENV"
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "0.13.6"
+          enable-cache: false
+      - name: Install
+        id: install
+        run: |
+          uv venv --python 3.13 .venv
+          constraints=()
+          [ -f vendor/wheels/constraints.txt ] && constraints=(-c vendor/wheels/constraints.txt)
+          uv pip install --python .venv/bin/python -r requirements-dev.txt "${constraints[@]}"
+      # Enforced. While it only reported, the job failed on every run, and a
+      # new finding failed it no differently from the four it always had.
+      - name: Lint
+        run: make lint PYTHON=.venv/bin/python
+      # Blocking. The 2026-08-26 baseline was 32 errors in 9 files; `mypy
+      # src/orbitwin` now reports none.
+      - name: Typecheck
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: make typecheck PYTHON=.venv/bin/python

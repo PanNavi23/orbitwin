@@ -1,0 +1,97 @@
+# ODC 2026 ranking round under the onsite rules of 2026/11/08 (ranking-onsite), which let
+# a team set SC_Human's epoch (orbitwin set-epoch). Otherwise ranking.yaml. Search as
+# standard.yaml plus the ranking search; gmat as commented below.
+#
+# No score block: C_r, kt, Ct, kv and Cv are announced on the day. The revision
+# fixes their units: T_team in s, ΔV_team in m/s, Δr_min and C_r in km, and a
+# score block without cr_km, or in km/s, is refused. Write the day's file with
+# scripts/ranking_day_config.py, not by hand.
+
+# Named by the rules; a template with no Maneuver cannot say which is which.
+pursuer_name: SC_Human
+target_name: SC_Alien
+search:
+  seed: 20260818
+  one_burn_samples: 256
+  one_burn_grid_burns: 23
+  one_burn_grid_arrivals: 47
+  max_revolutions: 1
+  min_tof_s: 100.0
+  dense_window_fraction: 0.85
+  workers: 0
+  keep_candidates: 300
+  render_top: 25
+  endpoint_tolerance_km: 0.02
+  event_refine_top: 20
+  event_step_s: 2.0
+  two_burn_enabled: true
+  two_burn_samples: 256
+  # The capped multi-impulse search, aimed at GMAT's target track. Its 0 km
+  # margin (ranking_search_without_margin) found the same bests on R3-R5 at 1.4-1.9x
+  # the time.
+  ranking_search: true
+  # Re-polish the best plans in J2 and GMAT's SPAD drag and offer them beside the
+  # two-body ones (docs/GMAT_IN_THE_LOOP.md, 2a). Off until someone decides; a
+  # script whose drag the table was not measured on falls back to two-body.
+  # ranking_pursuer_model: j2-spad-drag
+policy:
+  rules: ranking-onsite
+  # Replaces the TeamXX placeholder in ReportFile1.Filename (organizer's requirement).
+  # team_number: the team's number; ranking_day_config.py --team-number sets it
+  # T_max from the announcement; the parser refuses a ranking scenario without it.
+  # horizon_s:
+  # T_team, T_max and Ct count from the earlier craft's epoch (organizer's written
+  # answer, 2026-11-04): ranking_day_config.py writes mission_time_origin: earliest,
+  # the only value these rules take. closest_approach_window stays unset: whether
+  # the alignment's rows count toward d_min is not yet answered.
+  mu_km3_s2: 398600.4418
+  intercept_radius_km: 5.0
+  # Margins at least 1.495/1.5's 1/300 for boundary risk; over a limit disqualifies.
+  dv_limit_km_s: 0.25
+  dv_safe_limit_km_s: 0.249
+  total_dv_limit_km_s: 3.0
+  total_dv_safe_limit_km_s: 2.99
+  min_burn_separation_s: 100.0
+  safe_burn_separation_s: 101.0
+  final_padding_s: 20.0
+  allow_zero_vector_unused_slots: true
+  require_synchronized_propagation: true
+  # Signed off 2026-11-03 (COMPETITION_POLICY.md): a template whose craft start
+  # apart without an alignment, such as a set-epoch copy, gets the A1 form as its
+  # first command.
+  add_epoch_alignment: true
+  # SC_Human never starts first under these rules, so there is no head start.
+  head_start_burns: false
+  # Refuse a GMAT flight under 100 km altitude, the search's own floor. The rules
+  # and our absolute line are the surface; this is margin for drag differences
+  # between GMAT builds (R4's margin-0 best flew to 95.4 km under the section 7 model).
+  minimum_flown_altitude_km: 100.0
+gmat:
+  # Hits corrected on GMAT's residuals before verification, 2-9 runs each.
+  # Head-start plans have a budget of their own, up to the 15 the search keeps,
+  # flown only when the best one's two-body score leads the best without one by
+  # half policy.head_start_min_gain_points (gmat_loop.head_start_flies): none on
+  # R8 (lead 0.0032), 15 on R9 (1.0854). Their first flight misses its planned
+  # arrival by 33.8 km on R9, 20.7 on R8 (miss_at_arrival_km), 2 rounds each.
+  correct_top: 40
+  verify_top: 0
+  # Misses scored above the zero burn, replayed besides. The 10 km margin kept
+  # none on R1-R6. The 0 km one, tried on R2 and R5 only, kept 15 on R5 in two
+  # plans. 4 and the zero burn fit in one round of the 8 workers while
+  # ranking_pursuer_model, which doubles the 4, is off, and while no head-start
+  # plan is flown; when one is, its 4 make 9 runs, two rounds.
+  verify_misses: 4
+  # GmatConsole runs at once. Solve on the i5-14500 (14 cores, 20 threads),
+  # shared with other jobs, 2026-11-02: R1 215-230 s at 4, 171-174 s at 8,
+  # 176-201 s at 12, 183 s at 16; R6 372-464 s at 4, 254-321 s at 8, 320 s at
+  # 12. Each run slows as more share the CPU (R1 median correction 9-10, 14,
+  # 21-23, 30 s), and past 8 that cancels the extra runs. With fewer than 8
+  # cores, scripts/ranking_day_config.py --gmat-workers.
+  workers: 8
+  timeout_s: 300.0
+  reruns: 3
+  diagnostic_report_name: orbitwin_diagnostic.txt
+  compare_report_bytes: true
+  # The proven copy less the plots when GmatConsole refuses them for those
+  # alone, its report packaged; signed off 2026-11-06 (docs/COMPETITION_POLICY.md).
+  console_copy: true

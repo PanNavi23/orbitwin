@@ -1,0 +1,32 @@
+# 四強賽規則 2026/10/29.
+format = 1
+kind = "duel"
+id = "tasa-odc-2026/duel"
+name = "duel"
+
+rounds = 6                          # §3
+decision_s = 600.0                  # §3
+impulses_per_round = 1              # §4
+over_limit = "scale"                # §4: Δv·ΔV_lim/‖Δv‖, not a violation
+frame = "EarthMJ2000Eq"             # §4
+submission_unit = "m/s"             # §3
+submission_min_decimals = 2         # §3
+late_submission = [0.0, 0.0, 0.0]   # §3
+dynamics = "two-body point mass"    # §4
+outcome_order = ["capture", "earth-crossing", "terminal-semimajor-axis"]  # §5
+announced = [                       # §7
+  "r0, v0 and epoch of each craft",
+  "safe semimajor-axis interval",
+  "impulse limit ΔV_lim",
+  "capture radius R_cap",
+  "round time T_round",
+]
+role_choice = "the better-ranked team chooses after 10 minutes of analysis"  # §1
+network_and_generative_ai_banned = true  # §6
+# total_dv_limit_km_s is absent: §4 sets no total.
+
+[source]
+document = "四強賽規則.pdf"
+sha256 = "78c09cf72e7deb6ac3fcbc5f061964c9ac2c11f8f3bceb9497e616961ef94df4"
+header_date = "2026/10/29"
+received = "2026-11-01"

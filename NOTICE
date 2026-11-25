@@ -1,0 +1,15 @@
+OrbitWin
+Copyright 2026 OrbitWin Team
+
+The Apache License does not cover the competition organizer's material, which
+keeps its owner's terms and is not ours to license: the organizer's GMAT
+templates, the scripts rendered from them, the organizer's rules and briefing
+documents, and a transcription of the rules. A copy of this repository that
+carries any of it lists its files in ORGANIZER_MATERIAL.txt.
+
+Other files quote the organizer's rules, templates and briefing documents
+(docs/DUEL_ENGINE.md, docs/ASSUMPTIONS_AND_GAPS.md and
+docs/SCORING_STRATEGY_AND_OPEN_QUESTIONS.md, among others). The license covers
+those files, but not what they quote, which remains the organizer's. The example
+and test templates are ours; some keep the layout of a GMAT GUI save, as the
+organizer's templates do.

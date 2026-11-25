@@ -1,0 +1,60 @@
+{
+  "_provenance": "The best schedule found on 2026-09-05 for the ODC 2026 preliminary, recovered from the search that produced it. Replayed under real GMAT R2026a and recorded in docs/LESSONS_2026-09-05.md. The search itself was not committed at the time; this file is what made it testable.",
+  "_scenario_sha256": "1f378c65c849248bee9a5732b7ebb3777594dc1e50755842a831d24f7e4c731a",
+  "_config": "config/history/preliminary/odc2026.yaml",
+  "n_burns": 6,
+  "score": 98.31718458661409,
+  "arrival_s": 5676.641634610201,
+  "total_dv_km_s": 6.1839784861205604,
+  "minimum_radius_km": 6800.000000000001,
+  "burns": [
+    {
+      "time_s": 0.001,
+      "dv_inertial_km_s": [
+        0.24736619224287099,
+        -1.2433952099460008,
+        -0.7923404058979976
+      ]
+    },
+    {
+      "time_s": 101.001,
+      "dv_inertial_km_s": [
+        0.007412533406012482,
+        -0.04042616409567131,
+        -0.029069802431992055
+      ]
+    },
+    {
+      "time_s": 2253.7896900826395,
+      "dv_inertial_km_s": [
+        -0.9369903220934801,
+        -0.7629122950387696,
+        -0.8803629742224706
+      ]
+    },
+    {
+      "time_s": 2354.7896900826395,
+      "dv_inertial_km_s": [
+        -0.9372409377861827,
+        -0.7637597081619556,
+        -0.8793608660419462
+      ]
+    },
+    {
+      "time_s": 2455.7896900826395,
+      "dv_inertial_km_s": [
+        -0.9376354170832941,
+        -0.7645743722972969,
+        -0.8782316629780731
+      ]
+    },
+    {
+      "time_s": 2556.7896900826395,
+      "dv_inertial_km_s": [
+        -0.09642036963630449,
+        -0.07865297156196105,
+        -0.09011727890067434
+      ]
+    }
+  ]
+}

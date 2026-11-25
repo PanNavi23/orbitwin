@@ -1,0 +1,12 @@
+-r requirements.txt
+# Every install of this file takes the bundle's versions, dependencies included.
+-c vendor/wheels/constraints.txt
+pytest==9.1.1
+pytest-cov==7.1.0
+ruff==0.16.4
+mypy==2.3.1
+# PyYAML ships no py.typed, so without this every mypy run opens with an
+# import-untyped error on config.py and the operator learns to skim past the
+# first line of the report. This is the stub package mypy itself names, it is
+# the only thing config.py needs, and it introduces no new findings.
+types-PyYAML==6.0.12.20260815

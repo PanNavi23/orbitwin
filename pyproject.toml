@@ -1,0 +1,126 @@
+[build-system]
+# 77 is the first to read an SPDX string in `project.license`.
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "orbitwin"
+version = "0.4.0"
+description = "Plan and verify multi-impulse spacecraft interception for NASA GMAT scripts: 3-D Lambert search under delta-v caps, GmatConsole replay, per-contest rule sets."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{name = "OrbitWin Team"}]
+keywords = [
+  "astrodynamics", "orbital-mechanics", "trajectory-optimization", "mission-design",
+  "mission-analysis", "spacecraft", "lambert-problem", "delta-v", "gmat", "nasa-gmat",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Science/Research",
+  "Natural Language :: English",
+  "Natural Language :: Chinese (Traditional)",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Scientific/Engineering :: Astronomy",
+  "Topic :: Scientific/Engineering :: Physics",
+  "Topic :: Scientific/Engineering :: Mathematics",
+  "Typing :: Typed",
+]
+# Lower bounds are what the code needs; the upper bounds keep an unknown
+# future major out of an install nobody watched. The exact versions that were
+# validated live in requirements.txt, and they are what the offline bundle and
+# the competition machine get.
+dependencies = [
+  "numpy>=1.26,<3",
+  "scipy>=1.12,<2",
+  "PyYAML>=6.0,<7",
+]
+# No `dev` extra: it would take numpy and SciPy from the ranges above, which
+# orbitwin refuses (src/orbitwin/pinned.py). Install requirements-dev.txt.
+
+[project.scripts]
+orbitwin = "orbitwin.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+# The rule packs, step 4's search script and the ranking profile run from an installed package.
+orbitwin = ["rulepacks/*/*.toml", "tools/*.sh", "profiles/*.yaml"]
+
+[tool.pytest.ini_options]
+addopts = "-ra -q"
+testpaths = ["tests"]
+# Dumps every thread's stack when a test runs this long. test_make_targets
+# keeps it below ci.yml's timeouts and run_isolated_test_files.py's per-file
+# kill; `make package` passes its own.
+faulthandler_timeout = 600
+markers = [
+  "slow: computationally expensive OOD and search tests",
+  "gmat: requires a real GmatConsole installation",
+]
+
+[tool.coverage.run]
+source = ["orbitwin"]
+# ProcessPoolExecutor workers and the CLI/script subprocesses tests start run
+# orbitwin too; without these their lines read as missed. pytest-cov 7 left
+# subprocess measurement to coverage's `patch`.
+concurrency = ["multiprocessing", "thread"]
+parallel = true
+sigterm = true
+patch = ["subprocess"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.mypy]
+# The `requires-python` floor, so a call 3.11 lacks is flagged.
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+
+# scipy ships no `py.typed`, so mypy refuses its submodules by name and CI
+# opened with five `import-untyped` errors that had nothing to do with the code
+# under review. Every one of them is the same fact -- SciPy does not distribute
+# inline annotations -- and the effect of this block is exactly what the errors
+# already left behind: `brentq`, `solve_ivp` and `qmc.Sobol` come back as `Any`.
+# Nothing that was being checked stops being checked; only the five lines go.
+#
+# The alternative was measured rather than assumed. `scipy-stubs`, the package
+# mypy's own hint names, resolves all five imports and does type those calls --
+# and it surfaces one further finding, an `Any` escaping a declared `ndarray`
+# return at `lambert.py:225`. That is a real error and worth having; it is also
+# in the numerical layer, so adopting the stubs means fixing it in the same
+# change rather than landing a red CI beside it. This block is the state until
+# then, and the modules are listed one by one so that a sixth scipy import has
+# to be considered rather than silently inheriting the exemption.
+#
+# PyYAML is not here: `types-PyYAML` is pinned in requirements-dev.txt and
+# resolves that import properly. numpy is not here either -- it ships
+# `py.typed` and resolves with no help at all once the dependencies are
+# installed, so an unresolved numpy in CI would mean the install step failed,
+# not that a stub is missing.
+[[tool.mypy.overrides]]
+module = [
+  "scipy.integrate",
+  "scipy.optimize",
+  "scipy.stats",
+]
+ignore_missing_imports = true

@@ -1,0 +1,148 @@
+from __future__ import annotations
+
+import json
+import math
+from pathlib import Path
+from typing import Any
+
+from .config import OrbitWinConfig
+from .errors import PolicyError
+from .gmat_parser import parse_gmat_script, scenario_json
+from .io import write_candidates, write_candidates_csv
+from .models import Candidate
+from .search import search_one_burn, select_candidates, zero_burn_candidate
+from .script_renderer import render_candidate, write_rendered_candidate
+from .two_burn import search_two_burn_global
+from .verify import verify_candidate_with_gmat
+
+
+def _sort_key(candidate: Candidate) -> tuple[float, float, float, float, str]:
+    score_key = -candidate.score if candidate.score is not None else 0.0
+    verified_key = 0.0 if candidate.verified_by_gmat else 1.0
+    success_key = 0.0 if candidate.successful else 1.0
+    return (
+        verified_key,
+        success_key,
+        score_key if candidate.score is not None else candidate.total_dv_km_s,
+        candidate.intercept_time_s if candidate.intercept_time_s is not None else math.inf,
+        candidate.candidate_id,
+    )
+
+
+def solve_scenario(
+    script_path: str | Path,
+    config: OrbitWinConfig,
+    output_dir: str | Path,
+    *,
+    render_top: int | None = None,
+    gmat_console: str | Path | None = None,
+    startup_file: str | Path | None = None,
+    gmat_verify_top: int | None = None,
+) -> dict[str, Any]:
+    output = Path(output_dir)
+    output.mkdir(parents=True, exist_ok=True)
+    scenario, document = parse_gmat_script(script_path, config)
+    (output / "scenario.json").write_text(scenario_json(scenario), encoding="utf-8")
+
+    raw_candidates: list[Candidate] = [zero_burn_candidate(scenario, config)]
+    raw_candidates.extend(search_one_burn(scenario, config))
+    if config.search.two_burn_enabled:
+        raw_candidates.extend(search_two_burn_global(scenario, config))
+
+    # A mathematically valid candidate may not fit the organizer's fixed number
+    # and ordering of burn slots (for example, a late one-burn intercept in a
+    # two-slot template). Determine renderability *before* Pareto pruning so an
+    # unrenderable low-delta-v point cannot dominate and discard the best legal
+    # fallback.
+    renderable_raw: list[Candidate] = []
+    unrenderable_raw: list[Candidate] = []
+    for candidate in raw_candidates:
+        try:
+            render_candidate(document, scenario, candidate, config)
+        except PolicyError as exc:
+            candidate.metadata["renderable"] = False
+            candidate.warnings = tuple(
+                sorted(set(candidate.warnings + (f"Not renderable in official template: {exc}",)))
+            )
+            unrenderable_raw.append(candidate)
+        else:
+            candidate.metadata["renderable"] = True
+            renderable_raw.append(candidate)
+
+    renderable_candidates = select_candidates(renderable_raw, config.search.keep_candidates)
+    # Retain a bounded analytical record of unrenderable points for diagnosis,
+    # but never mix them into the submission Pareto archive.
+    unrenderable_candidates = select_candidates(
+        unrenderable_raw, min(50, config.search.keep_candidates)
+    )
+    candidates = [*renderable_candidates, *unrenderable_candidates]
+    candidates.sort(key=_sort_key)
+    renderable_candidates.sort(key=_sort_key)
+
+    count_to_render = render_top if render_top is not None else config.search.render_top
+    development_dir = output / "development_candidates"
+    for candidate in renderable_candidates[:count_to_render]:
+        candidate_dir = development_dir / candidate.candidate_id
+        candidate_dir.mkdir(parents=True, exist_ok=True)
+        write_rendered_candidate(
+            candidate_dir / "candidate.script",
+            candidate_dir / "candidate.script.diff.txt",
+            document,
+            scenario,
+            candidate,
+            config,
+        )
+        (candidate_dir / "candidate.json").write_text(
+            json.dumps(candidate.to_dict(), ensure_ascii=False, indent=2, sort_keys=True),
+            encoding="utf-8",
+        )
+
+    verify_count = gmat_verify_top if gmat_verify_top is not None else config.gmat.verify_top
+    if gmat_console is not None and verify_count > 0:
+        for candidate in renderable_candidates[: min(verify_count, len(renderable_candidates))]:
+            try:
+                verify_candidate_with_gmat(
+                    script_path,
+                    scenario,
+                    document,
+                    candidate,
+                    config,
+                    gmat_console,
+                    startup_file,
+                    output / "gmat_verification" / candidate.candidate_id,
+                )
+            except Exception as exc:  # Evidence is retained; failed candidates are not promoted.
+                candidate.warnings = tuple(sorted(set(candidate.warnings + (f"GMAT verification failed: {exc}",))))
+        candidates.sort(key=_sort_key)
+
+    write_candidates(output / "candidates.json", candidates)
+    write_candidates_csv(output / "candidates.csv", candidates)
+    best = next((candidate for candidate in renderable_candidates if candidate.successful), None)
+    if best is not None:
+        best_dir = output / "best_candidate"
+        best_dir.mkdir(parents=True, exist_ok=True)
+        write_rendered_candidate(
+            best_dir / "team_solution.script",
+            best_dir / "team_solution.script.diff.txt",
+            document,
+            scenario,
+            best,
+            config,
+        )
+        (best_dir / "candidate.json").write_text(
+            json.dumps(best.to_dict(), ensure_ascii=False, indent=2, sort_keys=True),
+            encoding="utf-8",
+        )
+    summary = {
+        "scenario": scenario.to_dict(),
+        "candidate_count": len(candidates),
+        "successful_count": sum(candidate.successful for candidate in candidates),
+        "renderable_count": len(renderable_candidates),
+        "gmat_verified_count": sum(candidate.verified_by_gmat for candidate in candidates),
+        "best_candidate": best.to_dict() if best else None,
+        "warnings": list(scenario.warnings),
+    }
+    (output / "summary.json").write_text(
+        json.dumps(summary, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8"
+    )
+    return summary

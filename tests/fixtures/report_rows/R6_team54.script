@@ -1,0 +1,163 @@
+%General Mission Analysis Tool(GMAT) Script
+% Ranking rehearsal R6 (synthetic, not an organizer file).
+% R1's geometry at 02:00:00, with SC_Alien starting 1800 s earlier where GMAT
+% flies it back to, and SC_Human inserted from an EarthFixed SphericalAZFPA
+% state. The tutorial's alignment brings SC_Alien to SC_Human's epoch.
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft SC_Alien;
+SC_Alien.DateFormat = UTCGregorian;
+SC_Alien.Epoch = '09 Nov 2026 01:30:00.000';
+SC_Alien.CoordinateSystem = EarthMJ2000Eq;
+SC_Alien.DisplayStateType = Cartesian;
+SC_Alien.X = -20314.291929957184;
+SC_Alien.Y = 23640.472034799917;
+SC_Alien.Z = 21202.537121319463;
+SC_Alien.VX = 1.1098981340350496;
+SC_Alien.VY = -4.3047628680652625;
+SC_Alien.VZ = -2.3204540361058856;
+SC_Alien.DryMass = 850;
+SC_Alien.Cd = 2.2;
+SC_Alien.Cr = 1.8;
+SC_Alien.DragArea = 15;
+SC_Alien.SRPArea = 1;
+SC_Alien.SPADDragFile = '../data/vehicle/spad/SphericalModel.spo';
+SC_Alien.SPADDragScaleFactor = 1;
+SC_Alien.SPADSRPFile = '../data/vehicle/spad/SphericalModel.spo';
+SC_Alien.SPADSRPScaleFactor = 1;
+SC_Alien.AtmosDensityScaleFactor = 1;
+SC_Alien.ExtendedMassPropertiesModel = 'None';
+SC_Alien.NAIFId = -10000001;
+SC_Alien.NAIFIdReferenceFrame = -9000001;
+SC_Alien.Id = 'SatId';
+SC_Alien.Attitude = CoordinateSystemFixed;
+SC_Alien.SPADSRPInterpolationMethod = Bilinear;
+SC_Alien.SPADDragInterpolationMethod = Bilinear;
+SC_Alien.AttitudeCoordinateSystem = EarthMJ2000Eq;
+SC_Alien.EulerAngleSequence = '321';
+
+Create Spacecraft SC_Human;
+SC_Human.DateFormat = UTCGregorian;
+SC_Human.Epoch = '09 Nov 2026 02:00:00.000';
+SC_Human.CoordinateSystem = EarthFixed;
+SC_Human.DisplayStateType = SphericalAZFPA;
+SC_Human.RMAG = 6799.999999999999;
+SC_Human.RA = -95.29910473715563;
+SC_Human.DEC = -39.17254757499947;
+SC_Human.VMAG = 7.275850241937489;
+SC_Human.AZI = 81.4623587565865;
+SC_Human.FPA = 90.0;
+SC_Human.DryMass = 850;
+SC_Human.Cd = 2.2;
+SC_Human.Cr = 1.8;
+SC_Human.DragArea = 15;
+SC_Human.SRPArea = 1;
+SC_Human.SPADDragFile = '../data/vehicle/spad/SphericalModel.spo';
+SC_Human.SPADDragScaleFactor = 1;
+SC_Human.SPADSRPFile = '../data/vehicle/spad/SphericalModel.spo';
+SC_Human.SPADSRPScaleFactor = 1;
+SC_Human.AtmosDensityScaleFactor = 1;
+SC_Human.ExtendedMassPropertiesModel = 'None';
+SC_Human.NAIFId = -10001001;
+SC_Human.NAIFIdReferenceFrame = -9001001;
+SC_Human.Id = 'SatId';
+SC_Human.Attitude = CoordinateSystemFixed;
+SC_Human.SPADSRPInterpolationMethod = Bilinear;
+SC_Human.SPADDragInterpolationMethod = Bilinear;
+SC_Human.AttitudeCoordinateSystem = EarthMJ2000Eq;
+SC_Human.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- ForceModels
+%----------------------------------------
+
+Create ForceModel DefaultProp_ForceModel;
+DefaultProp_ForceModel.CentralBody = Earth;
+DefaultProp_ForceModel.PrimaryBodies = {Earth};
+DefaultProp_ForceModel.PointMasses = {Sun, Luna};
+DefaultProp_ForceModel.Drag.AtmosphereModel = NRLMSISE00;
+DefaultProp_ForceModel.Drag.HistoricWeatherSource = 'ConstantFluxAndGeoMag';
+DefaultProp_ForceModel.Drag.PredictedWeatherSource = 'ConstantFluxAndGeoMag';
+DefaultProp_ForceModel.Drag.F107 = 150;
+DefaultProp_ForceModel.Drag.F107A = 150;
+DefaultProp_ForceModel.Drag.MagneticIndex = 3;
+DefaultProp_ForceModel.Drag.DragModel = 'SPADFile';
+DefaultProp_ForceModel.SRP = On;
+DefaultProp_ForceModel.SRP.Flux = 1367;
+DefaultProp_ForceModel.SRP.SRPModel = 'SPADFile';
+DefaultProp_ForceModel.SRP.Nominal_Sun = 149597870.691;
+DefaultProp_ForceModel.RelativisticCorrection = On;
+DefaultProp_ForceModel.ErrorControl = RSSStep;
+DefaultProp_ForceModel.GravityField.Earth.Degree = 20;
+DefaultProp_ForceModel.GravityField.Earth.Order = 20;
+DefaultProp_ForceModel.GravityField.Earth.StmLimit = 100;
+DefaultProp_ForceModel.GravityField.Earth.PotentialFile = 'EGM96.cof';
+DefaultProp_ForceModel.GravityField.Earth.TideModel = 'SolidAndPole';
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator DefaultProp;
+DefaultProp.FM = DefaultProp_ForceModel;
+DefaultProp.Type = RungeKutta89;
+DefaultProp.InitialStepSize = 1;
+DefaultProp.Accuracy = 9.999999999999999e-12;
+DefaultProp.MinStep = 0.001;
+DefaultProp.MaxStep = 1;
+DefaultProp.MaxStepAttempts = 50;
+DefaultProp.StopIfAccuracyIsViolated = true;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create ReportFile ReportFile1;
+ReportFile1.Filename = 'ODC_2026_Team54.txt';
+ReportFile1.Precision = 16;
+ReportFile1.Add = {SC_Human.Earth.Altitude, SC_Alien.ElapsedSecs, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Alien.EarthMJ2000Eq.VX, SC_Alien.EarthMJ2000Eq.VY, SC_Alien.EarthMJ2000Eq.VZ, SC_Human.ElapsedSecs, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z, SC_Human.EarthMJ2000Eq.VX, SC_Human.EarthMJ2000Eq.VY, SC_Human.EarthMJ2000Eq.VZ};
+ReportFile1.WriteHeaders = true;
+ReportFile1.LeftJustify = On;
+ReportFile1.ZeroFill = Off;
+ReportFile1.FixedWidth = true;
+ReportFile1.Delimiter = ' ';
+ReportFile1.ColumnWidth = 23;
+ReportFile1.WriteReport = true;
+ReportFile1.AppendToExistingFile = false;
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+% Maneuvers added by OrbitWin; every other line is the organizer's.
+Create ImpulsiveBurn ImpulsiveBurn1;
+ImpulsiveBurn1.CoordinateSystem = Local;
+ImpulsiveBurn1.Origin = Earth;
+ImpulsiveBurn1.Axes = VNB;
+ImpulsiveBurn1.Element1 = 0.12628287260528076;
+ImpulsiveBurn1.Element2 = 0.16674358355133395;
+ImpulsiveBurn1.Element3 = -0.03489264090295301;
+ImpulsiveBurn1.DecrementMass = false;
+ImpulsiveBurn1.Isp = 300;
+ImpulsiveBurn1.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn2;
+ImpulsiveBurn2.CoordinateSystem = Local;
+ImpulsiveBurn2.Origin = Earth;
+ImpulsiveBurn2.Axes = VNB;
+ImpulsiveBurn2.Element1 = 0.1091279355995469;
+ImpulsiveBurn2.Element2 = -0.19935558981817927;
+ImpulsiveBurn2.Element3 = 0.05125032185225996;
+ImpulsiveBurn2.DecrementMass = false;
+ImpulsiveBurn2.Isp = 300;
+ImpulsiveBurn2.GravitationalAccel = 9.81;
+
+BeginMissionSequence;
+Propagate DefaultProp(SC_Alien) {SC_Alien.UTCModJulian = SC_Human.UTCModJulian};
+Maneuver ImpulsiveBurn1(SC_Human);
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 2325.5636649403377, SC_Human.ElapsedSecs = 2325.5636649403377};
+Maneuver ImpulsiveBurn2(SC_Human);
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 1785.9685101980676, SC_Human.ElapsedSecs = 1785.9685101980676};

@@ -1,0 +1,53 @@
+{
+  "_provenance": "A schedule orbitwin.multi_burn.search_multi_burn found on 2026-11-22 for examples/synthetic/NoManeuver_Circular.script under config/history/preliminary/odc2026.yaml with pursuer_name Pursuer and target_name AlienSC: starts structured_starts((5, 6), limits, seed=2026, random_starts=2), restarts=3, max_iterations=4000 (12 workers, which do not change the answer). It is the refinement of start n5_coast3_t0, the 18th best of the 30 found (the best scored 99.9664), chosen because the wall tests need what it has: two impulses on the cap, one of which measures 2.2e-16 over it once start_from_solution and fly rebuild it, a 1.31 km/s Lambert completion, and 9.26 km of clearance above the radius floor. Two-body only; GMAT never flew it.",
+  "_scenario_sha256": "e0fd982df539164c2e8e1a03dddebcd19b44141d2d24dadc7ba3da58352dbe51",
+  "_config": "config/history/preliminary/odc2026.yaml",
+  "label": "n5_coast3_t0",
+  "n_burns": 5,
+  "score": 99.36934544962018,
+  "arrival_s": 5248.547089678143,
+  "total_dv_km_s": 5.719694074179026,
+  "minimum_radius_km": 6487.391756499811,
+  "burns": [
+    {
+      "time_s": 34.024459388867804,
+      "dv_inertial_km_s": [
+        -0.0,
+        0.0,
+        -0.0
+      ]
+    },
+    {
+      "time_s": 135.0244593888678,
+      "dv_inertial_km_s": [
+        -0.16792768171833616,
+        -0.06543868376540053,
+        -1.484096719348088
+      ]
+    },
+    {
+      "time_s": 245.63745600104332,
+      "dv_inertial_km_s": [
+        0.23112709204424722,
+        -0.6720076095804346,
+        1.31529884056406
+      ]
+    },
+    {
+      "time_s": 346.63745600104335,
+      "dv_inertial_km_s": [
+        -0.01868829227260429,
+        -0.2872006437172675,
+        1.39095550196066
+      ]
+    },
+    {
+      "time_s": 3478.313777656229,
+      "dv_inertial_km_s": [
+        0.816190777679035,
+        -0.6200999959843649,
+        -0.8145608241494795
+      ]
+    }
+  ]
+}

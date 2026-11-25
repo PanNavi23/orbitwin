@@ -1,0 +1,134 @@
+{
+ "analytical_endpoint_error_km": 19.455166877510827,
+ "branch": "ranking-search/2",
+ "burns": [
+  {
+   "dv_inertial_km_s": [
+    0.1151036052395899,
+    0.07040161241089683,
+    0.16346380202859223
+   ],
+   "dv_script_km_s": [
+    0.12621044475428664,
+    0.16666866499638722,
+    -0.03490159432025271
+   ],
+   "frame": [
+    "Local",
+    "Earth",
+    "VNB"
+   ],
+   "magnitude_km_s": 0.21195669732954484,
+   "slot_index": 0,
+   "time_s": 0.0
+  },
+  {
+   "dv_inertial_km_s": [
+    -0.21023438876177636,
+    0.039302624929631734,
+    -0.09271301179900088
+   ],
+   "dv_script_km_s": [
+    0.1089987187821505,
+    -0.1994816540666175,
+    0.05162602150015745
+   ],
+   "frame": [
+    "Local",
+    "Earth",
+    "VNB"
+   ],
+   "magnitude_km_s": 0.23310705073257373,
+   "slot_index": 1,
+   "time_s": 2324.521860307632
+  }
+ ],
+ "candidate_id": "C-47505027dea7b6dc",
+ "distance_at_completion_km": 5.0,
+ "gmat_run_id": "20261105T035433Z-40b67c5651",
+ "intercept_time_s": 4111.512812913861,
+ "metadata": {
+  "alignment_minimum_distance_km": null,
+  "analytical_before_gmat": {
+   "intercept_time_s": 4111.162708727543,
+   "minimum_distance_km": 0.03347583333734581,
+   "score": 95.0671989885883,
+   "successful": true
+  },
+  "arrival_time_s": 4112.357233083089,
+  "corrected_from": "C-a139927f7ada3682",
+  "event_refined": true,
+  "frontier": "robust",
+  "gmat_correction": {
+   "aim_km": 0.5,
+   "closest_approach_km": 0.03347583333734581,
+   "closest_approach_time_s": 4112.329659294251,
+   "converged": true,
+   "first_entry_time_s": 4111.162708727543,
+   "miss_at_arrival_km": 0.12279314223382472,
+   "planned_arrival_s": 4112.357233083089,
+   "round": 2,
+   "run_id": "20261105T033932Z-c88a91080c",
+   "two_body_miss_at_arrival_km": 19.455166877510827
+  },
+  "gmat_event": {
+   "distance_at_end_km": 3.49999948650348,
+   "first_entry_segment_dt_s": 0.9909528074786067,
+   "first_entry_time_s": 4111.162708646984,
+   "flown_script_sha256": "ba9345770cc7c4a7bce90599fd92c44ac4c6445301fdef73da5b5a7609beafdf",
+   "interpolated_minimum_distance_km": 3.49999948650348,
+   "interpolated_minimum_distance_time_s": 4111.512812913861,
+   "minimum_distance_km": 3.49999948650348,
+   "minimum_distance_time_s": 4111.512812913861,
+   "minimum_geodetic_altitude_km": 427.67457422268853,
+   "samples_inside_radius": 1,
+   "stop_depth_km": 1.50000051349652,
+   "stop_depth_setting_km": 1.5,
+   "stop_time_s": 4111.512812905989
+  },
+  "horizon_s": 6711.667000104773,
+  "minimum_geodetic_altitude_km": 427.67457422268853,
+  "minimum_pursuer_radius_km": 6797.9315883892805,
+  "renderable": true,
+  "scenario_sha256": "7eb95b8ccf4a1c3fcc4e75e7ba61ad2502240b6d1d79a064489d42a34f87b2a6",
+  "scored_miss": false,
+  "stage_claimed_by_file": "public_gmat_verified",
+  "time_origin_offset_s": 1799.9999998952262
+ },
+ "minimum_distance_km": 3.49999948650348,
+ "penalties": [],
+ "score": 95.06564141437596,
+ "score_components": {
+  "delta_v_score": 21.649647192301195,
+  "distance_score": 50.0,
+  "penalty_score": 0.0,
+  "raw_score": 95.06564141437596,
+  "time_score": 23.41599422207477
+ },
+ "score_is_stale": false,
+ "stage": "public_gmat_verified",
+ "stage_evidence": {
+  "certification_without_organizer_build": {
+   "exact_runs": [
+    "20261105T035437Z-d6294825ef",
+    "20261105T035441Z-145098d10e",
+    "20261105T035445Z-b9d90d0f17"
+   ],
+   "parity_run": "20261105T035450Z-886fdf7c02"
+  },
+  "public_gmat_verified": {
+   "derived_startup_sha256": "6fa87ebd6c06f0ffeed3414cd5cb54dcc02aba2bf2101d1d8a1c2c961fda574f",
+   "executable_sha256": "f7cf5b3188902353ed4245bb21c22c1afa0451efdd221b7e19f6a74dc7ed1d93",
+   "organizer_compatible": false,
+   "run_id": "20261105T035433Z-40b67c5651",
+   "startup_sha256": "306597283230abc86d953491c9e401f2c9139ad9cdefa1f944508da9f631fddf"
+  }
+ },
+ "successful": true,
+ "total_dv_km_s": 0.44506374806211857,
+ "vector_sum_dv_km_s": 0.16152572544992258,
+ "verified_by_gmat": true,
+ "warnings": [
+  "GMAT first entry rests on 1 report sample(s) inside the 5 km sphere (segment dt 0.9909528074786067 s); the epoch is interpolated"
+ ]
+}

@@ -1,0 +1,54 @@
+# What scripts/measure_ranking_scenario.py printed for each script on GMAT
+# R2026a (build Mar 30 2026), 2026-11-01. horizon_s is T_max: the first time
+# after perigee that SC_Alien's geocentric distance reaches
+# mission_boundary_km. Each script's Propagate goal is its horizon_s.
+# perigee_* are GMAT's; v_inf_km_s and plane_angle_deg are the osculating
+# values at epoch (plane angle between the two craft's angular momenta).
+# human_final_position_km is SC_Human's EarthMJ2000Eq position on the last
+# report row of the zero-burn run, which pins the force model GMAT flew.
+scenarios:
+  - script: R1_NearPlane_Reachable.script
+    mission_boundary_km: 17000
+    horizon_s: 6711.667
+    perigee_time_s: 4500.238
+    perigee_altitude_km: 448.995
+    v_inf_km_s: 2.0
+    plane_angle_deg: 5.0
+    zero_burn_closest_km: 604.310
+    human_final_position_km: [3959.0803, 5504.4247, -521.7840]
+  - script: R2_SteepPlane_NearMiss.script
+    mission_boundary_km: 21000
+    horizon_s: 5791.381
+    perigee_time_s: 2999.826
+    perigee_altitude_km: 598.910
+    v_inf_km_s: 3.0
+    plane_angle_deg: 75.0
+    zero_burn_closest_km: 4711.155
+    human_final_position_km: [5652.6019, 1170.1502, -3594.1406]
+  - script: R3_FastHighPerigee_TwoPropagators.script
+    mission_boundary_km: 26000
+    horizon_s: 5092.815
+    perigee_time_s: 2399.945
+    perigee_altitude_km: 2501.053
+    v_inf_km_s: 7.0
+    plane_angle_deg: 30.0
+    zero_burn_closest_km: 3014.187
+    human_final_position_km: [-5566.1814, -320.3580, 3891.5869]
+  - script: R4_LowPerigee_Drag.script
+    mission_boundary_km: 13500
+    horizon_s: 5219.966
+    perigee_time_s: 3600.236
+    perigee_altitude_km: 321.374
+    v_inf_km_s: 1.5
+    plane_angle_deg: 20.0
+    zero_burn_closest_km: 2468.877
+    human_final_position_km: [-5404.4925, 450.0522, 4102.0262]
+  - script: R5_TiltedPlane_CloseMiss.script
+    mission_boundary_km: 21000
+    horizon_s: 5791.747
+    perigee_time_s: 3000.036
+    perigee_altitude_km: 601.635
+    v_inf_km_s: 3.0
+    plane_angle_deg: 60.0
+    zero_burn_closest_km: 3049.340
+    human_final_position_km: [-3479.9451, 4030.2391, 4229.3692]

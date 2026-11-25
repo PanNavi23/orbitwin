@@ -1,0 +1,59 @@
+% An open template whose craft start 5400 s apart, SC_Alien first, with the
+% tutorial's alignment. Built so the two unpowered tracks cross 1500 s after
+% SC_Human's epoch at about 13 m/s: a zero-burn interception near 1100 s on
+% the solver clock, and near 6500 s on SC_Alien's. Point-mass Earth, GMAT's mu.
+Create Spacecraft SC_Human;
+SC_Human.DateFormat = UTCGregorian;
+SC_Human.Epoch = '01 Jan 2026 12:00:00.000';
+SC_Human.CoordinateSystem = EarthMJ2000Eq;
+SC_Human.DisplayStateType = Cartesian;
+SC_Human.X = 1879.4181002928233;
+SC_Human.Y = -3929.997773709738;
+SC_Human.Z = -5479.738174677988;
+SC_Human.VX = 6.638087896018284;
+SC_Human.VY = 3.5770713740572164;
+SC_Human.VZ = -0.2790966348002909;
+
+Create Spacecraft SC_Alien;
+SC_Alien.DateFormat = UTCGregorian;
+SC_Alien.Epoch = '01 Jan 2026 10:30:00.000';
+SC_Alien.CoordinateSystem = EarthMJ2000Eq;
+SC_Alien.DisplayStateType = Cartesian;
+SC_Alien.X = 4422.37091823923;
+SC_Alien.Y = -2031.4962237316486;
+SC_Alien.Z = -5027.541207092837;
+SC_Alien.VX = 5.040436435552632;
+SC_Alien.VY = 5.08744193191089;
+SC_Alien.VZ = 2.38762896575549;
+
+Create ForceModel FM;
+FM.CentralBody = Earth;
+FM.PrimaryBodies = {Earth};
+FM.Drag = None;
+FM.SRP = Off;
+FM.RelativisticCorrection = Off;
+FM.ErrorControl = RSSStep;
+FM.GravityField.Earth.Degree = 0;
+FM.GravityField.Earth.Order = 0;
+
+Create Propagator Prop;
+Prop.FM = FM;
+Prop.Type = RungeKutta89;
+Prop.InitialStepSize = 10;
+Prop.Accuracy = 1e-12;
+Prop.MinStep = 0.001;
+Prop.MaxStep = 10;
+Prop.MaxStepAttempts = 50;
+Prop.StopIfAccuracyIsViolated = true;
+
+Create ReportFile OfficialReport;
+OfficialReport.Filename = 'OfficialReport.txt';
+OfficialReport.Precision = 16;
+OfficialReport.Add = {SC_Human.UTCModJulian, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z};
+OfficialReport.WriteHeaders = true;
+OfficialReport.WriteReport = true;
+OfficialReport.AppendToExistingFile = false;
+
+BeginMissionSequence;
+Propagate Prop(SC_Alien) {SC_Alien.UTCModJulian = SC_Human.UTCModJulian};
+Propagate Prop(SC_Alien, SC_Human) {SC_Human.ElapsedSecs = 6000};

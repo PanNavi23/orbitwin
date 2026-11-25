@@ -1,0 +1,39 @@
+# Every package the offline bundle holds, at the version it holds.
+#
+# requirements-dev.txt pins what we import; the rest come in as dependencies
+# and moved on every refetch (six of them between 2026-09-05 and 2026-11-02),
+# so the bundle on a drive and the set CI tested drifted apart unseen.
+# requirements-dev.txt names this file, and the fetch, the offline bootstrap
+# and CI read no other constraints, so they get one set.
+#
+# Regenerated from the bundle itself, the same for 3.11 to 3.14, in the
+# repository's root. dev.in is requirements-dev.txt without its -c line, which
+# would hold every version to the old file:
+#   grep -v '^-c ' requirements-dev.txt > dev.in
+#   printf 'setuptools\nwheel\npip\n' > backend.in
+#   uv pip compile --offline --no-index --find-links vendor/wheels \
+#     --only-binary :all: --python-version 3.11 \
+#     --python-platform x86_64-manylinux_2_28 --no-header --no-annotate \
+#     dev.in backend.in
+# To move a version: change it here, refetch, commit this and SHA256SUMS.txt.
+ast-serialize==0.13.1
+coverage==7.17.0
+iniconfig==2.3.1
+librt==0.16.0
+mypy==2.3.1
+mypy-extensions==1.1.0
+numpy==2.4.6
+packaging==26.3
+pathspec==1.1.1
+pip==26.2.2
+pluggy==1.7.0
+pygments==2.21.0
+pytest==9.1.1
+pytest-cov==7.1.0
+pyyaml==6.0.3
+ruff==0.16.4
+scipy==1.17.1
+setuptools==84.2.1
+types-pyyaml==6.0.12.20260815
+typing-extensions==4.16.0
+wheel==0.48.0

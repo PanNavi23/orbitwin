@@ -1,0 +1,85 @@
+# Ranking round rehearsal (rules 2026/10/06), for the scripts in examples/ranking/.
+#
+# config/ranking.yaml with a 600 s GmatConsole timeout. horizon_s is left null
+# on purpose: T_max differs per scenario and is announced on the day, and under
+# rules: ranking a null horizon makes the parser stop instead of using 4*T_A.
+# examples/ranking/README.md has each scenario's value and the command that
+# fills it in.
+#
+# No score block either. scripts/rehearse_ranking.py adds placeholder
+# coefficients, C_r = 300 km among them: a PLACEHOLDER, not announced. Its
+# --cr-km 100 300 1000 3000 runs each scenario under each. By hand, append e.g.
+#   score: {kt: 0.003, ct: <0.8 T_max>, kv: 0.0012, cv: 2000, time_unit: s,
+#           delta_v_unit: m/s, cr_km: 300}
+pursuer_name: SC_Human
+target_name: SC_Alien
+
+search:
+  seed: 20260818
+  one_burn_samples: 256
+  one_burn_grid_burns: 23
+  one_burn_grid_arrivals: 47
+  max_revolutions: 1
+  min_tof_s: 100.0
+  dense_window_fraction: 0.85
+  workers: 0
+  keep_candidates: 300
+  render_top: 25
+  endpoint_tolerance_km: 0.02
+  event_refine_top: 20
+  event_step_s: 2.0
+  two_burn_enabled: true
+  two_burn_samples: 256
+  # The capped multi-impulse search, aimed at GMAT's target track. Its 0 km
+  # margin (ranking_search_without_margin) found the same bests on R3-R5 at 1.4-1.9x
+  # the time.
+  ranking_search: true
+
+policy:
+  rules: ranking
+  # Replaces the TeamXX placeholder in ReportFile1.Filename (organizer's requirement).
+  # team_number: the team's number; ranking_day_config.py --team-number sets it
+  horizon_s: null
+  # The earlier craft's epoch is t = 0 (organizer, 2026-11-04); the rows of
+  # examples/ranking/async_scenarios.yaml set mission_time_origin: earliest.
+  mu_km3_s2: 398600.4418
+  intercept_radius_km: 5.0
+  # 250 m/s per impulse; over it plus 1e-5 m/s disqualifies (sec. 4 note 1(a)).
+  dv_limit_km_s: 0.25
+  dv_safe_limit_km_s: 0.249
+  # 3 km/s in total, no tolerance, disqualifying (sec. 4 note 1(c)).
+  total_dv_limit_km_s: 3.0
+  total_dv_safe_limit_km_s: 2.99
+  min_burn_separation_s: 100.0
+  safe_burn_separation_s: 101.0
+  final_padding_s: 20.0
+  allow_zero_vector_unused_slots: true
+  require_synchronized_propagation: true
+  # Signed off 2026-11-03 (COMPETITION_POLICY.md): a template whose craft start
+  # apart without an alignment gets the A1 form as its first command.
+  add_epoch_alignment: true
+  # Signed off 2026-11-08 (COMPETITION_POLICY.md): when the pursuer starts first,
+  # an open template's script may burn in the alignment, before the target's epoch.
+  # rank takes such a plan only this many points above the best without one, since
+  # how the validator reads those rows is not answered (Q5).
+  head_start_burns: true
+  head_start_min_gain_points: 0.05
+  # Refuse a GMAT flight under 100 km altitude, the search's own floor. The rules
+  # and our absolute line are the surface; this is margin for drag differences
+  # between GMAT builds (R4's margin-0 best flew to 95.4 km under the section 7 model).
+  minimum_flown_altitude_km: 100.0
+
+gmat:
+  # Hits corrected on GMAT's residuals before verification, 2-9 runs each.
+  correct_top: 40
+  verify_top: 0
+  verify_misses: 4
+  # As config/ranking.yaml, where the measurement is.
+  workers: 8
+  timeout_s: 600.0
+  reruns: 3
+  diagnostic_report_name: orbitwin_diagnostic.txt
+  compare_report_bytes: true
+  # The proven copy less the plots when GmatConsole refuses them for those
+  # alone, its report packaged; signed off 2026-11-06 (docs/COMPETITION_POLICY.md).
+  console_copy: true

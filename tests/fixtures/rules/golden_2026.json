@@ -1,0 +1,105 @@
+{
+  "duel": {
+    "__type__": "DuelRules",
+    "announced": [
+      "r0, v0 and epoch of each craft",
+      "safe semimajor-axis interval",
+      "impulse limit ΔV_lim",
+      "capture radius R_cap",
+      "round time T_round"
+    ],
+    "decision_s": 600.0,
+    "dynamics": "two-body point mass",
+    "frame": "EarthMJ2000Eq",
+    "impulses_per_round": 1,
+    "late_submission": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "name": "duel",
+    "network_and_generative_ai_banned": true,
+    "outcome_order": [
+      "capture",
+      "earth-crossing",
+      "terminal-semimajor-axis"
+    ],
+    "over_limit": "scale",
+    "role_choice": "the better-ranked team chooses after 10 minutes of analysis",
+    "rounds": 6,
+    "source": {
+      "document": "四強賽規則.pdf",
+      "header_date": "2026/10/29",
+      "received": "2026-11-01",
+      "sha256": "78c09cf72e7deb6ac3fcbc5f061964c9ac2c11f8f3bceb9497e616961ef94df4"
+    },
+    "submission_min_decimals": 2,
+    "submission_unit": "m/s",
+    "total_dv_limit_km_s": null
+  },
+  "preliminary": {
+    "__type__": "InterceptionRules",
+    "advance": 8,
+    "completion_time": "last-report-row",
+    "distance_clause": "§5",
+    "distance_term": "EXPONENTIAL",
+    "earth_crossing": "not-ruled",
+    "earth_crossing_clause": null,
+    "historical": true,
+    "horizon": "4*T_A",
+    "impulse_clause": "§2, §5",
+    "impulse_epsilon_km_s": 0.0,
+    "impulse_limit_km_s": 1.5,
+    "intercept_radius_km": 5.0,
+    "min_separation_s": 100.0,
+    "miss_distance": "at-completion",
+    "miss_scored": true,
+    "name": "preliminary",
+    "over_impulse_limit": "penalty",
+    "penalty_points": 10.0,
+    "score_units": null,
+    "source": {
+      "document": "初賽規則_20260605.pdf",
+      "header_date": "2026/05/20",
+      "received": "2026-06-05",
+      "sha256": "2545b3c08016c70b08a0f7a0ac06c94e30641f732e8244f09d8e2287206aed72"
+    },
+    "target_forces": "gravity only",
+    "total_clause": null,
+    "total_dv_limit_km_s": null
+  },
+  "ranking": {
+    "__type__": "InterceptionRules",
+    "advance": 4,
+    "completion_time": "last-report-row",
+    "distance_clause": "§4 eq. (5) as revised 2026/11/04",
+    "distance_term": "LOGISTIC",
+    "earth_crossing": "disqualify-before-interception",
+    "earth_crossing_clause": "§4 note 1(b)",
+    "historical": false,
+    "horizon": "announced",
+    "impulse_clause": "§4 note 1(a)",
+    "impulse_epsilon_km_s": 1e-08,
+    "impulse_limit_km_s": 0.25,
+    "intercept_radius_km": 5.0,
+    "min_separation_s": 100.0,
+    "miss_distance": "closest-approach",
+    "miss_scored": true,
+    "name": "ranking",
+    "over_impulse_limit": "disqualify",
+    "penalty_points": 10.0,
+    "score_units": [
+      "s",
+      "m/s"
+    ],
+    "source": {
+      "document": "排位賽規則-revised-2026-11-04.pdf",
+      "header_date": "2026/11/04",
+      "received": "2026-11-04",
+      "sha256": "1ded3ebbaebb658477643c0e05391b7ba2bc040ac30dd18f0297beb4dbbc9e7e"
+    },
+    "target_forces": "every external force of §7",
+    "total_clause": "§4 note 1(c)",
+    "total_dv_limit_km_s": 3.0
+  }
+}

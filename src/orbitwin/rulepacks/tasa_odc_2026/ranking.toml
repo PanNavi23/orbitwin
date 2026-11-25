@@ -1,0 +1,42 @@
+# 排位賽規則 2026/11/04 修訂版: the 2026/10/06 rules (排位賽規則 (1).pdf, SHA-256
+# ecd26af2...e281ee3) with rule 2 as corrected on 2026-11-01 and a new distance term.
+format = 1
+kind = "interception"
+id = "tasa-odc-2026/ranking"
+name = "ranking"
+historical = false
+
+impulse_limit_km_s = 0.25                   # §2.1
+impulse_epsilon_km_s = 1.0e-8               # §4 note 1(a): ε_v = 1e-5 m/s
+over_impulse_limit = "disqualify"           # §4 note 1(a)
+impulse_clause = "§4 note 1(a)"
+min_separation_s = 100.0                    # §2.1
+penalty_points = 10.0                       # §4 note 1(d): 每次違規機動扣 10 分
+total_dv_limit_km_s = 3.0                   # §2.3, §4 note 1(c), no tolerance
+total_clause = "§4 note 1(c)"
+intercept_radius_km = 5.0                   # §3
+horizon = "announced"                       # §3
+miss_scored = true                          # eq. (2), (3)
+miss_ranked = true                          # §4 note 1: only (a)-(c) are not ranked
+miss_distance = "closest-approach"          # eq. (2): over [0, T_max]
+distance_term = "LOGISTIC"                  # eq. (5), revised 2026/11/04
+distance_clause = "§4 eq. (5) as revised 2026/11/04"
+score_units = ["s", "m/s"]                  # §4, below eq. (5), since 2026/11/04
+earth_crossing = "disqualify-before-interception"
+earth_crossing_clause = "§4 note 1(b)"
+completion_time = "last-report-row"         # not yet confirmed for this round
+target_forces = "every external force of §7"  # rule 2, corrected
+advance = 4                                 # §6
+time_origin = "earliest"
+time_origin_source = "the organizer's written answer of 2026-11-04 18:17 to Team 54, 「從比較早開始的開始算」: T_team, T_max and Ct count from the earlier of the two craft's epochs"
+report_must_carry_team = true               # the official report carries Team54
+separation_clause = "§4 note 1(d)"
+burn_clauses = "§4 note 1(a), (c), (d)"
+
+pursuer_epoch = "fixed"                      # both craft as the template gives them
+
+[source]
+document = "排位賽規則-revised-2026-11-04.pdf"
+sha256 = "1ded3ebbaebb658477643c0e05391b7ba2bc040ac30dd18f0297beb4dbbc9e7e"
+header_date = "2026/11/04"
+received = "2026-11-04"

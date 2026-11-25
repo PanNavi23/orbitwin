@@ -1,0 +1,16 @@
+# Human-readable competition edit policy. The executable enforcement lives in
+# orbitwin.script_renderer.assert_final_script_policy.
+allowed_final_edits:
+  - "Existing pursuer ImpulsiveBurn.Element1"
+  - "Existing pursuer ImpulsiveBurn.Element2"
+  - "Existing pursuer ImpulsiveBurn.Element3"
+  - "Numeric ElapsedSecs/ElapsedDays values on existing synchronized Propagate lines"
+  - "Each TeamXX placeholder in an official ReportFile Filename, to policy.team_number"
+forbidden_without_written_organizer_permission:
+  - "Spacecraft A or B initial epoch/state/orbital elements"
+  - "Target Maneuver"
+  - "ForceModel, Propagator, central body, gravity or environmental data"
+  - "Burn CoordinateSystem, Origin or Axes"
+  - "Adding/deleting/reordering resources or mission commands"
+  - "Organizer ReportFile name beyond the team number, fields or formatting"
+  - "Include macros or external runtime dependencies"

@@ -1,0 +1,377 @@
+{
+  "formats": {
+    "backslash_t": {
+      "Delimiter": "'\\t'"
+    },
+    "comma": {
+      "Delimiter": "','"
+    },
+    "default": {},
+    "nofixed": {
+      "FixedWidth": "false"
+    },
+    "noheader": {
+      "WriteHeaders": "false"
+    },
+    "noheader_comma_nofixed": {
+      "Delimiter": "','",
+      "FixedWidth": "false",
+      "WriteHeaders": "false"
+    },
+    "semicolon": {
+      "Delimiter": "';'"
+    }
+  },
+  "probes": {
+    "R1_precision6": {
+      "fields": {
+        "Add": "{SC_Alien.ElapsedSecs, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.ElapsedSecs, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z, SC_Human.EarthMJ2000Eq.VZ, SC_Human.Earth.ECC}",
+        "Delimiter": "' '",
+        "FixedWidth": "true",
+        "LeftJustify": "Off",
+        "Precision": "6",
+        "WriteHeaders": "true",
+        "ZeroFill": "On"
+      },
+      "full_lines": 4521,
+      "full_sha256": "620a01643b16cfa50196ed7668d22c8253ea2afd98c4e134aaf22a04023a39d9",
+      "kept": "first 3, last 5",
+      "note": "flown by the tenth review of #128"
+    },
+    "R6_earthfixed": {
+      "fields": {
+        "Add": "{SC_Alien.ElapsedSecs, SC_Human.ElapsedSecs, SC_Human.EarthFixed.X, SC_Human.EarthFixed.Y, SC_Human.EarthFixed.Z, SC_Alien.EarthFixed.X, SC_Alien.EarthFixed.Y, SC_Alien.EarthFixed.Z}",
+        "Delimiter": "' '",
+        "FixedWidth": "true",
+        "LeftJustify": "On",
+        "Precision": "16",
+        "WriteHeaders": "true",
+        "ZeroFill": "Off"
+      },
+      "full_lines": 5914,
+      "full_sha256": "8cb4679fbd2bd6a335c1570b81d00f614e18ef25b97eb91bc1ecd574909de2ed",
+      "kept": "all of it, as R6_earthfixed.txt.xz: a cut alignment is refused (#191)",
+      "note": "flown by the tenth review of #128; flown again for #191 on GMAT R2026a, the same bytes"
+    },
+    "R6_team54": {
+      "frozen_rows": 1800,
+      "full_lines": 5914,
+      "full_sha256": "50061dcc5ff94a284a5223ebec36a8f5b28926e5bcda4638bcc8acc79a2f5865",
+      "kept": "header, data rows 1-3 and 1798-1805 (1801 is t = 0), last 5; 6 frozen rows here",
+      "mission_time_origin": "target",
+      "note": "orbitwin certify submission of the R6 async rehearsal (output/async/reh678d) on GMAT R2026a",
+      "script_sha256": "d9a7e72189d52b89e62785074bf4518fa02025c2e0055c5d757b6e511ff167cf",
+      "t_team_s": 5911.532175005414
+    },
+    "R6_two_modjulians": {
+      "fields": {
+        "Add": "{SC_Alien.UTCModJulian, SC_Human.UTCModJulian, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z}"
+      },
+      "full_lines": 5914,
+      "full_sha256": "ca12d581abb19ff53f859a17519586b319ee50286fdec3a02db0b7faa717b631",
+      "kept": "header, data rows 1-3 and 1798-1805, last 5; 6 frozen rows here",
+      "note": "flown by the sixteenth review of #128"
+    },
+    "R8_team54": {
+      "frozen_rows": 1800,
+      "full_lines": 6105,
+      "full_sha256": "399632d5b1c972c15bb8ce68adf628ec0a3f3f262e1d3f28164f92e0e749b511",
+      "kept": "header, data rows 1-3 and 1798-1805 (1801 is t = 0), last 5; 6 frozen rows here",
+      "mission_time_origin": "target",
+      "note": "orbitwin certify submission of the R8 async rehearsal (output/async/reh678d) on GMAT R2026a; SC_Human starts 1800 s first, and its ElapsedSecs is T_team under the organizer's earliest-epoch clock",
+      "script_sha256": "c464f583a45ed9a42adc78f5f20d1dc457819fc1a268da93d57a8d42edd4e69e",
+      "t_team_s": 4301.437730749603
+    },
+    "a1_utc": {
+      "fields": {
+        "Add": "{SC_Human.A1ModJulian, SC_Human.UTCModJulian, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z}"
+      },
+      "full_lines": 4521,
+      "full_sha256": "fd48fcaf37abd739c63c79c63df66d80c3c84afef87f56aca40e42b6b830a7e9",
+      "kept": "first 3, last 5",
+      "note": "flown by the ninth review of #128"
+    },
+    "altitude_first": {
+      "fields": {
+        "Add": "{SC_Human.Earth.Altitude, SC_Alien.ElapsedSecs, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.ElapsedSecs, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z}"
+      },
+      "full_lines": 4521,
+      "full_sha256": "b68b4f3b7e30833a70e603a0316489ac5f783aa05a67ab0f692d7c38d2b636af",
+      "kept": "first 3, last 5"
+    },
+    "altitude_first_append_noheader": {
+      "fields": {
+        "Add": "{SC_Human.Earth.Altitude, SC_Alien.ElapsedSecs, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.ElapsedSecs, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z}",
+        "AppendToExistingFile": "true",
+        "WriteHeaders": "false"
+      },
+      "full_lines": 9040,
+      "full_sha256": "6dbd76b3b591d695cf02729afe7bd045d22b87079e52472602f5d2a381b06730",
+      "kept": "first 2, lines 4516-4522 (run 1 ends at 4520), last 5"
+    },
+    "altitude_first_noheader": {
+      "fields": {
+        "Add": "{SC_Human.Earth.Altitude, SC_Alien.ElapsedSecs, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.ElapsedSecs, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z}",
+        "WriteHeaders": "false"
+      },
+      "full_lines": 4520,
+      "full_sha256": "1cd881fad3b8c68a73d3d5cd8bc05815eb790ccef5a32cf53d513ac6f92d4b1e",
+      "kept": "first 2, last 5"
+    },
+    "append_noheader": {
+      "fields": {
+        "AppendToExistingFile": "true",
+        "WriteHeaders": "false"
+      },
+      "full_lines": 9040,
+      "full_sha256": "fe53da15b6f19ffb02efd0f6b06672e70b3951b07e81d20e12889efe2559988c",
+      "kept": "first 2, lines 4516-4522 (run 1 ends at 4520), last 5"
+    },
+    "days_a1": {
+      "fields": {
+        "Add": "{SC_Human.ElapsedDays, SC_Human.A1ModJulian, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z}"
+      },
+      "full_lines": 4521,
+      "full_sha256": "5f6fc6bc74dccf2e2262668c8e163fa70cdc410459253fe330c73143e6743a45",
+      "kept": "first 3, last 5",
+      "note": "flown by the ninth review of #128"
+    },
+    "earthfixed": {
+      "fields": {
+        "Add": "{SC_Alien.ElapsedSecs, SC_Alien.EarthFixed.X, SC_Alien.EarthFixed.Y, SC_Alien.EarthFixed.Z, SC_Human.EarthFixed.X, SC_Human.EarthFixed.Y, SC_Human.EarthFixed.Z, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z}"
+      },
+      "full_lines": 4521,
+      "full_sha256": "95edcc21a1ee4ecc5febcfbbfc4c0bf0f63e3605cc345fa77f1ff32c36e51c43",
+      "kept": "first 3, last 5"
+    },
+    "greg_comma": {
+      "fields": {
+        "Add": "{SC_Alien.ElapsedSecs, SC_Human.UTCGregorian, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z, SC_Alien.A1Gregorian}",
+        "Delimiter": "','"
+      },
+      "full_lines": 4521,
+      "full_sha256": "bfdecd9a9e44bcb53c0036abd25bc7b643e09971482a5beef3aa19529671934d",
+      "kept": "first 3, last 5"
+    },
+    "greg_default": {
+      "fields": {
+        "Add": "{SC_Alien.ElapsedSecs, SC_Human.UTCGregorian, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z, SC_Alien.A1Gregorian}"
+      },
+      "full_lines": 4521,
+      "full_sha256": "d9b612d4511104f10b0b3a34fc894df0b8b149162b0e2587000dcea58173c333",
+      "kept": "first 3, last 5"
+    },
+    "greg_first": {
+      "fields": {
+        "Add": "{SC_Human.UTCGregorian, SC_Alien.ElapsedSecs, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z, SC_Alien.A1Gregorian}"
+      },
+      "full_lines": 4521,
+      "full_sha256": "a1e76ee7b2b341d2c8911b5e26d796bc265e2bf2950fe14309b1aabb7bd8ed2b",
+      "kept": "first 3, last 5"
+    },
+    "greg_noheader": {
+      "fields": {
+        "Add": "{SC_Alien.ElapsedSecs, SC_Human.UTCGregorian, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z, SC_Alien.A1Gregorian}",
+        "WriteHeaders": "false"
+      },
+      "full_lines": 4520,
+      "full_sha256": "da2abe2a05178603ce9c87f8a899acdda67cd3c9ab648d24010ca150c40b897b",
+      "kept": "first 2, last 5"
+    },
+    "greg_noheader_comma_nofixed": {
+      "fields": {
+        "Add": "{SC_Alien.ElapsedSecs, SC_Human.UTCGregorian, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z, SC_Alien.A1Gregorian}",
+        "Delimiter": "','",
+        "FixedWidth": "false",
+        "WriteHeaders": "false"
+      },
+      "full_lines": 4520,
+      "full_sha256": "4da1621fd152f7bf737537e906a54d8df2002de174fb9cda53d70f6bbfadfcd0",
+      "kept": "first 2, last 5"
+    },
+    "greg_noheader_nofixed": {
+      "fields": {
+        "Add": "{SC_Alien.ElapsedSecs, SC_Human.UTCGregorian, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z, SC_Alien.A1Gregorian}",
+        "FixedWidth": "false",
+        "WriteHeaders": "false"
+      },
+      "full_lines": 4520,
+      "full_sha256": "bc565d1ec9f1bd42e84c5ccc7975c07c39dc354ef6ebfcc2b55090858cce8821",
+      "kept": "first 2, last 5"
+    },
+    "mixed_frames": {
+      "fields": {
+        "Add": "{SC_Alien.ElapsedSecs, SC_Alien.EarthFixed.X, SC_Alien.EarthFixed.Y, SC_Alien.EarthFixed.Z, SC_Human.EarthFixed.X, SC_Human.EarthFixed.Y, SC_Human.EarthFixed.Z, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z}"
+      },
+      "full_lines": 4521,
+      "full_sha256": "0a8e37ee837c229e711d770e2062278b7978b26e35b933a165e9be09adcf4955",
+      "kept": "first 3, last 5",
+      "note": "flown by the nineteenth review of #128"
+    },
+    "mjd_first": {
+      "fields": {
+        "Add": "{SC_Human.A1ModJulian, SC_Alien.ElapsedSecs, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.ElapsedSecs, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z}"
+      },
+      "full_lines": 4521,
+      "full_sha256": "bccb8e7f2f2511c9c405951e42656aa5ac8e2fcbd34f791d24222c6817d2b133",
+      "kept": "first 3, last 5"
+    },
+    "mjd_first_over": {
+      "fields": {
+        "Add": "{SC_Human.A1ModJulian, SC_Alien.ElapsedSecs, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.ElapsedSecs, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z}"
+      },
+      "full_lines": 4551,
+      "full_sha256": "d4a78738ff7b8cd66b0b7c3b8d59fe00e8c3a2f4565919c6ea62902ff5e0810d",
+      "kept": "first 3, last 35",
+      "note": "as mjd_first, last Propagate goal 4547.611829571932 (30 s on)"
+    },
+    "renamed_miss": {
+      "add": "{AlienSC.ElapsedSecs, AlienSC.EarthMJ2000Eq.X, AlienSC.EarthMJ2000Eq.Y, AlienSC.EarthMJ2000Eq.Z, AlienSC.EarthMJ2000Eq.VX, AlienSC.EarthMJ2000Eq.VY, AlienSC.EarthMJ2000Eq.VZ, HumanSC.ElapsedSecs, HumanSC.EarthMJ2000Eq.X, HumanSC.EarthMJ2000Eq.Y, HumanSC.EarthMJ2000Eq.Z, HumanSC.EarthMJ2000Eq.VX, HumanSC.EarthMJ2000Eq.VY, HumanSC.EarthMJ2000Eq.VZ, AlienSC.X, AlienSC.Y, AlienSC.Z}",
+      "full_lines": 4521,
+      "full_sha256": "58fe0950f8b0ecdc28bd124a902639492ac6aad2487570b45ba6278c0c55ecfa",
+      "kept": "first 3, last 5",
+      "note": "R1_hit with the craft renamed HumanSC and AlienSC and the burns zeroed, flown by the twenty-first review of #128"
+    },
+    "short_names": {
+      "fields": {
+        "Add": "{SC_Alien.ElapsedSecs, SC_Alien.X, SC_Alien.Y, SC_Alien.Z, SC_Human.X, SC_Human.Y, SC_Human.Z, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z}"
+      },
+      "full_lines": 4521,
+      "full_sha256": "7490a0e14f8b654a7eee3cd819c4e69e56bcca37383e0992cfb20634346e47db",
+      "kept": "first 3, last 5"
+    },
+    "short_names_cw1": {
+      "fields": {
+        "Add": "{SC_Alien.ElapsedSecs, SC_Alien.X, SC_Alien.Y, SC_Alien.Z, SC_Human.X, SC_Human.Y, SC_Human.Z}",
+        "ColumnWidth": "1"
+      },
+      "full_lines": 4521,
+      "full_sha256": "60a3173649661d0c8d95f0d1d6c9bfb8678bbdd271adb5daa364f15e3aaa48a1",
+      "kept": "first 3"
+    },
+    "solver_iterations_all": {
+      "fields": {
+        "SolverIterations": "All"
+      },
+      "full_lines": 4828,
+      "full_sha256": "98664a5a7cefd11ab559e990523837bf3f7f31a1fde0728104d7d4e9e48828fd",
+      "kept": "first 3, lines 52-57 (a pass ends at 54), last 5",
+      "note": "R1_hit with a Target/Vary/Achieve loop around its burn; script SHA-256 below",
+      "script_sha256": "66342016e70105f9c97a30037db1420d1a30e0c1068a22dbad32c42d1889478a"
+    },
+    "R4_diagnostic": {
+      "full_lines": 4060,
+      "full_sha256": "78be69f87e43d74dcc2402c2300d15e677bb7c5d404bc0a4adda0f37f17f5292",
+      "kept": "all of it, as R4_diagnostic.txt.xz",
+      "note": "the diagnostic-run report of orbitwin certify on R4 (examples/ranking, C-d5d0d9de07ba36c5, stopdepth/R4 search) on GMAT R2026a, for #191: GMAT's SC_Human.Earth.Altitude beside the EarthMJ2000Eq position; lowest 109.613 km",
+      "total_dv_km_s": 1.8203602294050023
+    }
+  },
+  "reports": {
+    "R1_hit_backslash_t": {
+      "full_lines": 4521,
+      "full_sha256": "abc3da1d64092e97b9402e425475949f1734f10993a7cec48a591fc39ddf21be",
+      "kept": "first 4, last 5"
+    },
+    "R1_hit_comma": {
+      "full_lines": 4521,
+      "full_sha256": "db8523d3ef16525b94eadb1f3e465eb5209987a0d12df59f58c1ae9cc63451fb",
+      "kept": "first 4, last 5"
+    },
+    "R1_hit_default": {
+      "full_lines": 4521,
+      "full_sha256": "984086f5a72e28a74f9ebf946fb98542c35f73a6570a77ac8912a53180b1a5f1",
+      "kept": "first 4, last 5"
+    },
+    "R1_hit_nofixed": {
+      "full_lines": 4521,
+      "full_sha256": "27f1862681e54cf9bba6aa4e1258194f6b24a942ca62a008a9000f6121ff7f3f",
+      "kept": "first 4, last 5"
+    },
+    "R1_hit_noheader": {
+      "full_lines": 4520,
+      "full_sha256": "58ca146ff7a381804d2ce9965517df345115dc4f3d94e5798d1d0c400b41962f",
+      "kept": "first 3, last 5"
+    },
+    "R1_hit_noheader_comma_nofixed": {
+      "full_lines": 4520,
+      "full_sha256": "08bfd7a5c9dc93bef9c63bf0ff81db2e4d873cc5de18da78c99a0b7ce9fcf12c",
+      "kept": "first 3, last 5"
+    },
+    "R1_hit_semicolon": {
+      "full_lines": 4521,
+      "full_sha256": "16fc394c79df1f452e6a679b9882dfb6dda9eb3dbf4ef25ec4056ee047d78e62",
+      "kept": "first 4, last 5"
+    },
+    "R1_miss_backslash_t": {
+      "full_lines": 6714,
+      "full_sha256": "2b282c59dcf07ce8f0974cc2da6834c602190e02871bbf718356635df457edae",
+      "kept": "first 3, last 5"
+    },
+    "R1_miss_comma": {
+      "full_lines": 6714,
+      "full_sha256": "07dd7741f112baacaf80665f2f33f2062dbea98488391bd0c4b57a94c6786849",
+      "kept": "first 3, last 5"
+    },
+    "R1_miss_default": {
+      "full_lines": 6714,
+      "full_sha256": "75bb7eaafa21ee260c8163ae02dcd1a46d3fdc806563a26512a2dd16fc136834",
+      "kept": "first 3, last 5"
+    },
+    "R1_miss_nofixed": {
+      "full_lines": 6714,
+      "full_sha256": "da5e9d41f9f2298f4346577eaa94df7c988bb7843f4f06a27a1606547a249138",
+      "kept": "first 3, last 5"
+    },
+    "R1_miss_noheader": {
+      "full_lines": 6713,
+      "full_sha256": "11248a9ff16d46f548650c33d3219bcb1936dab955fef1db5a868e1f696aa5c9",
+      "kept": "first 2, last 5"
+    },
+    "R1_miss_noheader_comma_nofixed": {
+      "full_lines": 6713,
+      "full_sha256": "fbf193b8173d849ae7db9be3406e0c0d8cc1b860ab8e63982fe274b715b2cf3d",
+      "kept": "first 2, last 5"
+    },
+    "R1_miss_semicolon": {
+      "full_lines": 6714,
+      "full_sha256": "5abd6773fe37f0a12188dbf6b7c5e77925d59baa1ca6e67fe6f5d4c6550f20c8",
+      "kept": "first 3, last 5"
+    },
+    "R1_over_backslash_t": {
+      "full_lines": 4551,
+      "full_sha256": "027577b4031bd739313748312c1c063b536c8c70aa237c3df2e3cb94f548d1b4",
+      "kept": "first 4, last 35"
+    },
+    "R1_over_comma": {
+      "full_lines": 4551,
+      "full_sha256": "1e48a9fe620ece46a8441c76eab70f82e64643da679f4480e7e0e10313afa222",
+      "kept": "first 4, last 35"
+    },
+    "R1_over_default": {
+      "full_lines": 4551,
+      "full_sha256": "739658f019945c30aaf0d75ff81ef0b19c28707bfb29704cf14cc4ee2af628ae",
+      "kept": "first 4, last 35"
+    },
+    "R1_over_nofixed": {
+      "full_lines": 4551,
+      "full_sha256": "c686c9a6514721a2b17c249d315ffd84ef0398c132720043bd43dc69279400d0",
+      "kept": "first 4, last 35"
+    },
+    "R1_over_noheader": {
+      "full_lines": 4550,
+      "full_sha256": "34fd1bb89bc6bc0d47d753ffb4c7380e45bb60ea79ac1bce49408cde5e8a5de3",
+      "kept": "first 3, last 35"
+    },
+    "R1_over_noheader_comma_nofixed": {
+      "full_lines": 4550,
+      "full_sha256": "0d3f5e98f038e1bdf6751d2d74bdd295e2495848d55971666ad06fecb50a25d2",
+      "kept": "first 3, last 35"
+    },
+    "R1_over_semicolon": {
+      "full_lines": 4551,
+      "full_sha256": "77e55d8bdeb9e617f6d07116bb680b9938a703905e8ce695d3748848f1851c85",
+      "kept": "first 4, last 35"
+    }
+  }
+}

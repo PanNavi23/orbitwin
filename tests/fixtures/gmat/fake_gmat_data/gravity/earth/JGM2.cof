@@ -1,0 +1,2 @@
+COMMENT  Stand-in for GMAT's JGM2.cof, read by no one: the fake GmatConsole flies point mass.
+COMMENT  It exists so the data-file lookup finds the file the templates name.

@@ -1,0 +1,36 @@
+# 初賽規則 2026/05/20. History.
+format = 1
+kind = "interception"
+id = "tasa-odc-2026/preliminary"
+name = "preliminary"
+historical = true
+
+impulse_limit_km_s = 1.5            # §2
+impulse_epsilon_km_s = 0.0
+over_impulse_limit = "penalty"      # §5: 每次違規機動扣 10 分
+impulse_clause = "§2, §5"
+min_separation_s = 100.0            # §2
+penalty_points = 10.0               # §5
+intercept_radius_km = 5.0           # §4
+horizon = "4*T_A"                   # §3
+miss_scored = true                  # §4, §5: T_team = 4·T_A, Δr(4·T_A)
+miss_ranked = false                 # whether a failed mission ranks is left open
+miss_distance = "at-completion"     # §4: Δrmin = max(Δr(Tteam), 5)
+distance_term = "EXPONENTIAL"       # §5
+distance_clause = "§5"
+earth_crossing = "not-ruled"
+completion_time = "last-report-row" # docs/LESSONS_2026-09-05.md §1
+target_forces = "gravity only"      # §2
+advance = 8                         # §7
+time_origin = "not-ruled"           # both craft start together
+report_must_carry_team = false      # a TeamXX placeholder is filled when present
+separation_clause = "§5"
+burn_clauses = "§2, §5 (impulses and spacing)"
+
+pursuer_epoch = "fixed"                      # both craft as the template gives them
+
+[source]
+document = "初賽規則_20260605.pdf"
+sha256 = "2545b3c08016c70b08a0f7a0ac06c94e30641f732e8244f09d8e2287206aed72"
+header_date = "2026/05/20"
+received = "2026-06-05"

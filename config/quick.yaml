@@ -1,0 +1,35 @@
+# Search preset. It sets no policy.rules, so the historical preliminary rulebook
+# (2026/05/20) applies, and every orbitwin command and day script needs
+# --rules preliminary to take it; the ranking round is config/ranking.yaml.
+
+search:
+  seed: 20260818
+  one_burn_samples: 64
+  one_burn_grid_burns: 6
+  one_burn_grid_arrivals: 12
+  max_revolutions: 0
+  min_tof_s: 120.0
+  dense_window_fraction: 0.80
+  keep_candidates: 120
+  render_top: 12
+  endpoint_tolerance_km: 0.05
+  event_refine_top: 8
+  event_step_s: 5.0
+  two_burn_enabled: false
+  two_burn_samples: 0
+policy:
+  mu_km3_s2: 398600.4418
+  intercept_radius_km: 5.0
+  dv_limit_km_s: 1.5
+  dv_safe_limit_km_s: 1.495
+  min_burn_separation_s: 100.0
+  safe_burn_separation_s: 101.0
+  final_padding_s: 20.0
+  allow_zero_vector_unused_slots: true
+  require_synchronized_propagation: true
+gmat:
+  verify_top: 0
+  timeout_s: 300.0
+  reruns: 3
+  diagnostic_report_name: orbitwin_diagnostic.txt
+  compare_report_bytes: true

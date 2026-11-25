@@ -1,0 +1,68 @@
+{
+  "rk89-default": {
+    "c_measured": 0.1273995421935046,
+    "position_floor_km_measured": 1.5683856281237319e-06,
+    "position_rate_km_s_measured": 2.543105921443629e-10,
+    "a_drift_km_measured": 4.9247522838413715e-05,
+    "a_method_km_measured": 1.2014061212539673e-07,
+    "row_gap_c": 0.19109931329025692,
+    "position_floor_km": 2.3525784421855977e-06,
+    "position_rate_km_s": 3.814658882165444e-10,
+    "a_km": 7.405149517580867e-05
+  },
+  "rk89-1e-10": {
+    "c_measured": 0.1577158986256584,
+    "position_floor_km_measured": 1.8332153725130724e-06,
+    "position_rate_km_s_measured": 3.430524256207302e-09,
+    "a_drift_km_measured": 0.0005861123790964484,
+    "a_method_km_measured": 6.728805601596832e-08,
+    "row_gap_c": 0.23657384793848762,
+    "position_floor_km": 2.7498230587696085e-06,
+    "position_rate_km_s": 5.145786384310953e-09,
+    "a_km": 0.0008792695007286966
+  },
+  "rk89-1e-9": {
+    "c_measured": 0.2102327166262637,
+    "position_floor_km_measured": 1.910184037475767e-06,
+    "position_rate_km_s_measured": 4.589839913916139e-08,
+    "a_drift_km_measured": 0.004938837373629212,
+    "a_method_km_measured": 8.684583008289337e-08,
+    "row_gap_c": 0.31534907493939557,
+    "position_floor_km": 2.8652760562136504e-06,
+    "position_rate_km_s": 6.884759870874208e-08,
+    "a_km": 0.007408386329188943
+  },
+  "pd78": {
+    "c_measured": 0.13961642969048463,
+    "position_floor_km_measured": 1.7640364142104362e-06,
+    "position_rate_km_s_measured": 9.253993906082001e-11,
+    "a_drift_km_measured": 5.4050469771027565e-06,
+    "a_method_km_measured": 1.3597309589385986e-07,
+    "row_gap_c": 0.20942464453572696,
+    "position_floor_km": 2.646054621315654e-06,
+    "position_rate_km_s": 1.3880990859123001e-10,
+    "a_km": 8.311530109494925e-06
+  },
+  "rk56": {
+    "c_measured": 0.024914980464780065,
+    "position_floor_km_measured": 1.9907085545348528e-06,
+    "position_rate_km_s_measured": 6.741611621660648e-10,
+    "a_drift_km_measured": 0.00031736574601382017,
+    "a_method_km_measured": 1.3154931366443634e-07,
+    "row_gap_c": 0.0373724706971701,
+    "position_floor_km": 2.986062831802279e-06,
+    "position_rate_km_s": 1.0112417432490972e-09,
+    "a_km": 0.0004762459429912269
+  },
+  "pd45": {
+    "c_measured": 0.024650893179672992,
+    "position_floor_km_measured": 2.0118775522771395e-06,
+    "position_rate_km_s_measured": 1.5263833281091003e-09,
+    "a_drift_km_measured": 0.00034506642259657383,
+    "a_method_km_measured": 1.6402918845415115e-07,
+    "row_gap_c": 0.03697633976950949,
+    "position_floor_km": 3.0178163284157095e-06,
+    "position_rate_km_s": 2.2895749921636502e-09,
+    "a_km": 0.000517845677677542
+  }
+}

@@ -1,0 +1,14 @@
+# Reference engineering tolerances; authoritative values must come from the
+# organizer-compatible GMAT build and validator.
+formal:
+  intercept_radius_km: 5.0
+  per_burn_dv_limit_km_s: 1.5
+  minimum_burn_separation_s: 100.0
+production_defaults:
+  per_burn_dv_safe_limit_km_s: 1.495
+  burn_separation_safe_s: 101.0
+  analytical_lambert_endpoint_tolerance_km: 0.05
+  final_report_byte_equality: true
+notes:
+  - "Do not infer validator floating-point tolerance from these values."
+  - "Use the exact organizer scoring coefficients and units when announced."

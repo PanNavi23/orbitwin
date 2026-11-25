@@ -1,0 +1,274 @@
+%General Mission Analysis Tool(GMAT) Script
+%Created: 2026-11-15 12:00:00
+% OrbitWin's own two-burn rendezvous (synthetic, not an organizer file), written in the
+% layout a GMAT R2026a GUI save has. Point-mass Earth, MaxStep 1 and 1000 s coasts are
+% kept so the tests exercise the same shape as the 2026 workshop template.
+
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft HumanSC;
+HumanSC.DateFormat = UTCGregorian;
+HumanSC.Epoch = '15 Mar 2027 12:00:00.000';
+HumanSC.CoordinateSystem = EarthMJ2000Eq;
+HumanSC.DisplayStateType = Keplerian;
+HumanSC.SMA = 6900;
+HumanSC.ECC = 0;
+HumanSC.INC = 28.5;
+HumanSC.RAAN = 45;
+HumanSC.AOP = 0;
+HumanSC.TA = 250;
+HumanSC.DryMass = 850;
+HumanSC.Cd = 2.2;
+HumanSC.Cr = 1.8;
+HumanSC.DragArea = 15;
+HumanSC.SRPArea = 1;
+HumanSC.SPADDragScaleFactor = 1;
+HumanSC.SPADSRPScaleFactor = 1;
+HumanSC.AtmosDensityScaleFactor = 1;
+HumanSC.ExtendedMassPropertiesModel = 'None';
+HumanSC.NAIFId = -10000001;
+HumanSC.NAIFIdReferenceFrame = -9000001;
+HumanSC.OrbitColor = Red;
+HumanSC.TargetColor = Teal;
+HumanSC.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+HumanSC.CdSigma = 1e+70;
+HumanSC.CrSigma = 1e+70;
+HumanSC.Id = 'SatId';
+HumanSC.Attitude = CoordinateSystemFixed;
+HumanSC.SPADSRPInterpolationMethod = Bilinear;
+HumanSC.SPADSRPScaleFactorSigma = 1e+70;
+HumanSC.SPADDragInterpolationMethod = Bilinear;
+HumanSC.SPADDragScaleFactorSigma = 1e+70;
+HumanSC.AtmosDensityScaleFactorSigma = 1e+70;
+HumanSC.ModelFile = 'aura.3ds';
+HumanSC.ModelOffsetX = 0;
+HumanSC.ModelOffsetY = 0;
+HumanSC.ModelOffsetZ = 0;
+HumanSC.ModelRotationX = 0;
+HumanSC.ModelRotationY = 0;
+HumanSC.ModelRotationZ = 0;
+HumanSC.ModelScale = 1;
+HumanSC.AttitudeDisplayStateType = 'Quaternion';
+HumanSC.AttitudeRateDisplayStateType = 'AngularVelocity';
+HumanSC.AttitudeCoordinateSystem = EarthMJ2000Eq;
+HumanSC.EulerAngleSequence = '321';
+
+Create Spacecraft AlienSC;
+AlienSC.DateFormat = UTCGregorian;
+AlienSC.Epoch = '15 Mar 2027 12:00:00.000';
+AlienSC.CoordinateSystem = EarthMJ2000Eq;
+AlienSC.DisplayStateType = Keplerian;
+AlienSC.SMA = 9600;
+AlienSC.ECC = 0;
+AlienSC.INC = 28.5;
+AlienSC.RAAN = 45;
+AlienSC.AOP = 0;
+AlienSC.TA = 311.265;
+AlienSC.DryMass = 850;
+AlienSC.Cd = 2.2;
+AlienSC.Cr = 1.8;
+AlienSC.DragArea = 15;
+AlienSC.SRPArea = 1;
+AlienSC.SPADDragScaleFactor = 1;
+AlienSC.SPADSRPScaleFactor = 1;
+AlienSC.AtmosDensityScaleFactor = 1;
+AlienSC.ExtendedMassPropertiesModel = 'None';
+AlienSC.NAIFId = -10001001;
+AlienSC.NAIFIdReferenceFrame = -9001001;
+AlienSC.OrbitColor = Green;
+AlienSC.TargetColor = LightGray;
+AlienSC.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+AlienSC.CdSigma = 1e+70;
+AlienSC.CrSigma = 1e+70;
+AlienSC.Id = 'SatId';
+AlienSC.Attitude = CoordinateSystemFixed;
+AlienSC.SPADSRPInterpolationMethod = Bilinear;
+AlienSC.SPADSRPScaleFactorSigma = 1e+70;
+AlienSC.SPADDragInterpolationMethod = Bilinear;
+AlienSC.SPADDragScaleFactorSigma = 1e+70;
+AlienSC.AtmosDensityScaleFactorSigma = 1e+70;
+AlienSC.ModelFile = 'aura.3ds';
+AlienSC.ModelOffsetX = 0;
+AlienSC.ModelOffsetY = 0;
+AlienSC.ModelOffsetZ = 0;
+AlienSC.ModelRotationX = 0;
+AlienSC.ModelRotationY = 0;
+AlienSC.ModelRotationZ = 0;
+AlienSC.ModelScale = 1;
+AlienSC.AttitudeDisplayStateType = 'Quaternion';
+AlienSC.AttitudeRateDisplayStateType = 'AngularVelocity';
+AlienSC.AttitudeCoordinateSystem = EarthMJ2000Eq;
+AlienSC.EulerAngleSequence = '321';
+
+
+
+%----------------------------------------
+%---------- ForceModels
+%----------------------------------------
+
+Create ForceModel DefaultProp_ForceModel;
+DefaultProp_ForceModel.CentralBody = Earth;
+DefaultProp_ForceModel.PrimaryBodies = {Earth};
+DefaultProp_ForceModel.Drag = None;
+DefaultProp_ForceModel.SRP = Off;
+DefaultProp_ForceModel.RelativisticCorrection = Off;
+DefaultProp_ForceModel.ErrorControl = RSSStep;
+DefaultProp_ForceModel.GravityField.Earth.Degree = 0;
+DefaultProp_ForceModel.GravityField.Earth.Order = 0;
+DefaultProp_ForceModel.GravityField.Earth.StmLimit = 100;
+DefaultProp_ForceModel.GravityField.Earth.PotentialFile = 'EGM96.cof';
+DefaultProp_ForceModel.GravityField.Earth.TideModel = 'None';
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator DefaultProp;
+DefaultProp.FM = DefaultProp_ForceModel;
+DefaultProp.Type = RungeKutta89;
+DefaultProp.InitialStepSize = 1;
+DefaultProp.Accuracy = 9.999999999999999e-12;
+DefaultProp.MinStep = 0.001;
+DefaultProp.MaxStep = 1;
+DefaultProp.MaxStepAttempts = 50;
+DefaultProp.StopIfAccuracyIsViolated = true;
+
+%----------------------------------------
+%---------- Burns
+%----------------------------------------
+
+Create ImpulsiveBurn ImpulsiveBurn1;
+ImpulsiveBurn1.CoordinateSystem = Local;
+ImpulsiveBurn1.Origin = Earth;
+ImpulsiveBurn1.Axes = VNB;
+ImpulsiveBurn1.Element1 = 0.5983;
+ImpulsiveBurn1.Element2 = 0;
+ImpulsiveBurn1.Element3 = 0;
+ImpulsiveBurn1.DecrementMass = false;
+ImpulsiveBurn1.Isp = 300;
+ImpulsiveBurn1.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn2;
+ImpulsiveBurn2.CoordinateSystem = Local;
+ImpulsiveBurn2.Origin = Earth;
+ImpulsiveBurn2.Axes = VNB;
+ImpulsiveBurn2.Element1 = 0.5507;
+ImpulsiveBurn2.Element2 = 0;
+ImpulsiveBurn2.Element3 = 0;
+ImpulsiveBurn2.DecrementMass = false;
+ImpulsiveBurn2.Isp = 300;
+ImpulsiveBurn2.GravitationalAccel = 9.81;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create OpenFramesInterface DefaultOrbitView;
+DefaultOrbitView.SolverIterations = Current;
+DefaultOrbitView.UpperLeft = [ 0.05 0.05 ];
+DefaultOrbitView.Size = [ 0.45 0.4 ];
+DefaultOrbitView.RelativeZOrder = 10;
+DefaultOrbitView.Maximized = false;
+DefaultOrbitView.Add = {HumanSC, AlienSC, Earth};
+DefaultOrbitView.View = {DefaultOrbitView_View};
+DefaultOrbitView.CoordinateSystem = EarthMJ2000Eq;
+DefaultOrbitView.DrawObject = [ true true true ];
+DefaultOrbitView.DrawTrajectory = [ true true true ];
+DefaultOrbitView.DrawAxes = [ false false false ];
+DefaultOrbitView.DrawXYPlane = [ false false false ];
+DefaultOrbitView.DrawLabel = [ true true true ];
+DefaultOrbitView.DrawUsePropLabel = [ false false false ];
+DefaultOrbitView.DrawCenterPoint = [ true true true ];
+DefaultOrbitView.DrawEndPoints = [ true true true ];
+DefaultOrbitView.DrawVelocity = [ false false false ];
+DefaultOrbitView.DrawGrid = [ false false false ];
+DefaultOrbitView.DrawLineWidth = [ 2 2 2 ];
+DefaultOrbitView.DrawMarkerSize = [ 10 10 10 ];
+DefaultOrbitView.DrawFontSize = [ 20 20 20 ];
+DefaultOrbitView.Axes = On;
+DefaultOrbitView.AxesLength = 12756.2726;
+DefaultOrbitView.AxesLabels = On;
+DefaultOrbitView.FrameLabel = Off;
+DefaultOrbitView.XYPlane = On;
+DefaultOrbitView.EclipticPlane = Off;
+DefaultOrbitView.EnableStars = On;
+DefaultOrbitView.StarCatalog = 'inp_StarsHYGv3.txt';
+DefaultOrbitView.StarCount = 40000;
+DefaultOrbitView.MinStarMag = -2;
+DefaultOrbitView.MaxStarMag = 6;
+DefaultOrbitView.MinStarPixels = 1;
+DefaultOrbitView.MaxStarPixels = 10;
+DefaultOrbitView.MinStarDimRatio = 0.5;
+DefaultOrbitView.ShowPlot = true;
+DefaultOrbitView.ShowToolbar = true;
+DefaultOrbitView.SolverIterLastN = 1;
+DefaultOrbitView.ShowVR = false;
+DefaultOrbitView.PlaybackTimeScale = 3600;
+DefaultOrbitView.MultisampleAntiAliasing = On;
+DefaultOrbitView.MSAASamples = 2;
+DefaultOrbitView.DrawFontPosition = {'Top-Right', 'Top-Right', 'Top-Right'};
+
+Create GroundTrack DefaultGroundTrackPlot;
+DefaultGroundTrackPlot.SolverIterations = Current;
+DefaultGroundTrackPlot.UpperLeft = [ 0.5 0.05 ];
+DefaultGroundTrackPlot.Size = [ 0.45 0.4 ];
+DefaultGroundTrackPlot.RelativeZOrder = 20;
+DefaultGroundTrackPlot.Maximized = false;
+DefaultGroundTrackPlot.CentralBody = Earth;
+DefaultGroundTrackPlot.Add = {AlienSC, HumanSC};
+DefaultGroundTrackPlot.DataCollectFrequency = 1;
+DefaultGroundTrackPlot.UpdatePlotFrequency = 50;
+DefaultGroundTrackPlot.NumPointsToRedraw = 0;
+DefaultGroundTrackPlot.MaxPlotPoints = 20000;
+DefaultGroundTrackPlot.ShowPlot = true;
+
+Create ReportFile ReportFile1;
+ReportFile1.SolverIterations = Current;
+ReportFile1.UpperLeft = [ 0 0 ];
+ReportFile1.Size = [ 0 0 ];
+ReportFile1.RelativeZOrder = 0;
+ReportFile1.Maximized = false;
+ReportFile1.Filename = 'ReportFile1.txt';
+ReportFile1.Precision = 16;
+ReportFile1.Add = {HumanSC.A1ModJulian, HumanSC.EarthMJ2000Eq.X};
+ReportFile1.WriteHeaders = true;
+ReportFile1.LeftJustify = On;
+ReportFile1.ZeroFill = Off;
+ReportFile1.FixedWidth = true;
+ReportFile1.Delimiter = ' ';
+ReportFile1.ColumnWidth = 23;
+ReportFile1.WriteReport = true;
+ReportFile1.AppendToExistingFile = false;
+
+%----------------------------------------
+%---------- User Objects
+%----------------------------------------
+
+Create OpenFramesView DefaultOrbitView_View;
+DefaultOrbitView_View.ViewFrame = CoordinateSystem;
+DefaultOrbitView_View.ViewTrajectory = Off;
+DefaultOrbitView_View.InertialFrame = Off;
+DefaultOrbitView_View.SetDefaultLocation = On;
+DefaultOrbitView_View.DefaultEye = [ 30000 0 0 ];
+DefaultOrbitView_View.DefaultCenter = [ 0 0 0 ];
+DefaultOrbitView_View.DefaultUp = [ 0 0 1 ];
+DefaultOrbitView_View.SetCurrentLocation = On;
+DefaultOrbitView_View.CurrentEye = [ 30000 0 0 ];
+DefaultOrbitView_View.CurrentCenter = [ 0 0 0 ];
+DefaultOrbitView_View.CurrentUp = [ 0 0 1 ];
+DefaultOrbitView_View.FOVy = 45;
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+Propagate DefaultProp(HumanSC, AlienSC) {HumanSC.ElapsedSecs = 1000, AlienSC.ElapsedSecs = 1000, OrbitColor = [0 128 255]};
+Maneuver ImpulsiveBurn1(HumanSC);
+Propagate DefaultProp(HumanSC) DefaultProp(AlienSC) {HumanSC.ElapsedSecs = 3728.5, AlienSC.ElapsedSecs = 3728.5, OrbitColor = [255 128 0]};
+Maneuver ImpulsiveBurn2(HumanSC);
+Propagate DefaultProp(HumanSC, AlienSC) {HumanSC.ElapsedSecs = 1000, AlienSC.ElapsedSecs = 1000, OrbitColor = [0 200 0]};

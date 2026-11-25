@@ -1,0 +1,222 @@
+from __future__ import annotations
+
+import json
+import shutil
+from pathlib import Path
+from typing import Any
+
+from .config import OrbitWinConfig
+from .constraints import validate_candidate
+from .diagnostic import add_diagnostic_report
+from .errors import GmatRunError, PolicyError
+from .gmat_parser import GmatScriptDocument, parse_gmat_script
+from .gmat_runner import run_gmat
+from .models import Candidate, GmatRunResult, Scenario, file_sha256
+from .report_parser import evaluate_diagnostic_report
+from .script_renderer import assert_final_script_policy, write_rendered_candidate
+
+
+def verify_candidate_with_gmat(
+    original_script: str | Path,
+    scenario: Scenario,
+    original_document: GmatScriptDocument,
+    candidate: Candidate,
+    config: OrbitWinConfig,
+    gmat_console: str | Path,
+    startup_file: str | Path | None,
+    output_dir: str | Path,
+    *,
+    timeout_s: float | None = None,
+) -> tuple[Candidate, GmatRunResult, dict[str, Any]]:
+    root = Path(output_dir)
+    root.mkdir(parents=True, exist_ok=True)
+    final_script = root / "team_solution.script"
+    final_diff = root / "team_solution.script.diff.txt"
+    write_rendered_candidate(
+        final_script,
+        final_diff,
+        original_document,
+        scenario,
+        candidate,
+        config,
+    )
+    final_scenario, final_document = parse_gmat_script(final_script, config)
+    diagnostic = add_diagnostic_report(
+        final_document, final_scenario, config.gmat.diagnostic_report_name
+    )
+    diagnostic_script = root / "diagnostic_sibling.script"
+    diagnostic_script.write_bytes(diagnostic.script_bytes)
+    report_names = [report.filename for report in final_scenario.report_files]
+    report_names.append(diagnostic.report_filename)
+    result = run_gmat(
+        gmat_console,
+        diagnostic_script,
+        root / "diagnostic-run",
+        report_names,
+        startup_file=startup_file,
+        timeout_s=timeout_s or config.gmat.timeout_s,
+    )
+    if not result.success:
+        raise GmatRunError(result.error or "GMAT diagnostic run failed")
+    diagnostic_path = result.reports[diagnostic.report_filename]
+    event = evaluate_diagnostic_report(
+        diagnostic_path,
+        scenario.pursuer.name,
+        scenario.target.name,
+        config.policy.intercept_radius_km,
+    )
+    candidate.intercept_time_s = event.first_entry_time_s
+    candidate.minimum_distance_km = event.minimum_distance_km
+    candidate.distance_at_completion_km = (
+        config.policy.intercept_radius_km
+        if event.first_entry_time_s is not None
+        else event.distance_at_end_km
+    )
+    candidate.successful = (
+        event.first_entry_time_s is not None
+        and event.first_entry_time_s <= scenario.max_time_s + 1.0e-8
+    )
+    candidate.verified_by_gmat = candidate.successful
+    candidate.gmat_run_id = result.run_id
+    candidate.metadata["gmat_event"] = {
+        "first_entry_time_s": event.first_entry_time_s,
+        "minimum_distance_km": event.minimum_distance_km,
+        "minimum_distance_time_s": event.minimum_distance_time_s,
+        "distance_at_end_km": event.distance_at_end_km,
+    }
+    constraint = validate_candidate(candidate, scenario, config, require_success=True)
+    if not constraint.valid:
+        raise PolicyError("GMAT candidate failed constraints: " + "; ".join(constraint.violations))
+    candidate.warnings = tuple(sorted(set(candidate.warnings + constraint.warnings)))
+    evidence = {
+        "candidate": candidate.to_dict(),
+        "gmat_run": result.to_dict(),
+        "diagnostic_report": diagnostic_path,
+        "event": candidate.metadata["gmat_event"],
+    }
+    (root / "verification.json").write_text(
+        json.dumps(evidence, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8"
+    )
+    return candidate, result, evidence
+
+
+def baseline_original_script(
+    original_script: str | Path,
+    config: OrbitWinConfig,
+    gmat_console: str | Path,
+    startup_file: str | Path | None,
+    output_dir: str | Path,
+) -> dict[str, Any]:
+    scenario, _ = parse_gmat_script(original_script, config)
+    before_hash = file_sha256(original_script)
+    reports = [report.filename for report in scenario.report_files]
+    result = run_gmat(
+        gmat_console,
+        original_script,
+        Path(output_dir) / "run",
+        reports,
+        startup_file=startup_file,
+        timeout_s=config.gmat.timeout_s,
+    )
+    after_hash = file_sha256(original_script)
+    if before_hash != after_hash:
+        raise PolicyError("Baseline execution changed the official script bytes")
+    if not result.success:
+        raise GmatRunError(result.error or "Original baseline failed")
+    evidence = {
+        "original_script": str(Path(original_script).resolve()),
+        "original_sha256_before": before_hash,
+        "original_sha256_after": after_hash,
+        "scenario": scenario.to_dict(),
+        "run": result.to_dict(),
+    }
+    output = Path(output_dir)
+    output.mkdir(parents=True, exist_ok=True)
+    (output / "baseline.json").write_text(
+        json.dumps(evidence, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8"
+    )
+    return evidence
+
+
+def certify_candidate(
+    original_script: str | Path,
+    candidate: Candidate,
+    config: OrbitWinConfig,
+    gmat_console: str | Path,
+    startup_file: str | Path | None,
+    output_dir: str | Path,
+    *,
+    runs: int | None = None,
+) -> dict[str, Any]:
+    scenario, document = parse_gmat_script(original_script, config)
+    root = Path(output_dir)
+    root.mkdir(parents=True, exist_ok=True)
+    verified, diagnostic_run, diagnostic_evidence = verify_candidate_with_gmat(
+        original_script,
+        scenario,
+        document,
+        candidate,
+        config,
+        gmat_console,
+        startup_file,
+        root / "diagnostic",
+    )
+    if not verified.verified_by_gmat:
+        raise GmatRunError("Candidate did not enter the 5 km sphere in GMAT")
+
+    submission = root / "submission"
+    submission.mkdir(parents=True, exist_ok=True)
+    final_script = submission / "team_solution.script"
+    final_diff = submission / "team_solution.script.diff.txt"
+    write_rendered_candidate(final_script, final_diff, document, scenario, verified, config)
+    assert_final_script_policy(original_script, final_script, config)
+    shutil.copy2(original_script, submission / "official_original.script")
+
+    exact_runs: list[GmatRunResult] = []
+    official_reports = [report.filename for report in scenario.report_files]
+    rerun_count = runs or config.gmat.reruns
+    if rerun_count < 1:
+        raise ValueError("Certification requires at least one exact run")
+    for index in range(rerun_count):
+        result = run_gmat(
+            gmat_console,
+            final_script,
+            root / f"exact-run-{index + 1:02d}",
+            official_reports,
+            startup_file=startup_file,
+            timeout_s=config.gmat.timeout_s,
+        )
+        if not result.success:
+            raise GmatRunError(result.error or f"Exact final run {index + 1} failed")
+        exact_runs.append(result)
+
+    if config.gmat.compare_report_bytes and official_reports:
+        for report_name in official_reports:
+            hashes = {result.report_sha256[report_name] for result in exact_runs}
+            if len(hashes) != 1:
+                raise GmatRunError(
+                    f"Official report {report_name} is not byte-reproducible across exact runs: {hashes}"
+                )
+
+    final_run = exact_runs[-1]
+    for report_name, source in final_run.reports.items():
+        destination = submission / report_name
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, destination)
+
+    certification = {
+        "candidate": verified.to_dict(),
+        "original_script_sha256": file_sha256(original_script),
+        "final_script_sha256": file_sha256(final_script),
+        "diagnostic": diagnostic_evidence,
+        "exact_runs": [result.to_dict() for result in exact_runs],
+        "submission_files": {
+            str(path.relative_to(submission)): file_sha256(path)
+            for path in sorted(submission.rglob("*"))
+            if path.is_file()
+        },
+    }
+    (submission / "certification.json").write_text(
+        json.dumps(certification, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8"
+    )
+    return certification

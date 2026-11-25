@@ -1,0 +1,308 @@
+%General Mission Analysis Tool(GMAT) Script
+% Ranking rehearsal R5 (synthetic, not an organizer file).
+% SC_Alien's plane is 60 deg from SC_Human's and its perigee is 40 deg past
+% the line where the planes cross. A two-body search within the caps, keeping
+% SC_Human 100 km up, finds no hit; its best miss is 89.5 km (107 km when GMAT
+% flies it), so the size of the miss is what scores.
+% Geometry, mission boundary and T_max: examples/ranking/README.md.
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft SC_Alien;
+SC_Alien.DateFormat = UTCGregorian;
+SC_Alien.Epoch = '09 Nov 2026 02:00:00.000';
+SC_Alien.CoordinateSystem = EarthMJ2000Eq;
+SC_Alien.DisplayStateType = Keplerian;
+SC_Alien.SMA = -44288.93797777812;
+SC_Alien.ECC = 1.1575593504522794;
+SC_Alien.INC = 55.01131111529009;
+SC_Alien.RAAN = 336.623152745058;
+SC_Alien.AOP = 352.5003039959879;
+SC_Alien.TA = 253.86146684267376;
+SC_Alien.DryMass = 850;
+SC_Alien.Cd = 2.2;
+SC_Alien.Cr = 1.8;
+SC_Alien.DragArea = 15;
+SC_Alien.SRPArea = 1;
+SC_Alien.SPADDragFile = '../data/vehicle/spad/SphericalModel.spo';
+SC_Alien.SPADDragScaleFactor = 1;
+SC_Alien.SPADSRPFile = '../data/vehicle/spad/SphericalModel.spo';
+SC_Alien.SPADSRPScaleFactor = 1;
+SC_Alien.AtmosDensityScaleFactor = 1;
+SC_Alien.ExtendedMassPropertiesModel = 'None';
+SC_Alien.NAIFId = -10000001;
+SC_Alien.NAIFIdReferenceFrame = -9000001;
+SC_Alien.Id = 'SatId';
+SC_Alien.Attitude = CoordinateSystemFixed;
+SC_Alien.SPADSRPInterpolationMethod = Bilinear;
+SC_Alien.SPADDragInterpolationMethod = Bilinear;
+SC_Alien.AttitudeCoordinateSystem = EarthMJ2000Eq;
+SC_Alien.EulerAngleSequence = '321';
+
+Create Spacecraft SC_Human;
+SC_Human.DateFormat = UTCGregorian;
+SC_Human.Epoch = '09 Nov 2026 02:00:00.000';
+SC_Human.CoordinateSystem = EarthMJ2000Eq;
+SC_Human.DisplayStateType = Keplerian;
+SC_Human.SMA = 6800.0;
+SC_Human.ECC = 0.0;
+SC_Human.INC = 40.0;
+SC_Human.RAAN = 60.0;
+SC_Human.AOP = 0.0;
+SC_Human.TA = 61.22998193986655;
+SC_Human.DryMass = 850;
+SC_Human.Cd = 2.2;
+SC_Human.Cr = 1.8;
+SC_Human.DragArea = 15;
+SC_Human.SRPArea = 1;
+SC_Human.SPADDragFile = '../data/vehicle/spad/SphericalModel.spo';
+SC_Human.SPADDragScaleFactor = 1;
+SC_Human.SPADSRPFile = '../data/vehicle/spad/SphericalModel.spo';
+SC_Human.SPADSRPScaleFactor = 1;
+SC_Human.AtmosDensityScaleFactor = 1;
+SC_Human.ExtendedMassPropertiesModel = 'None';
+SC_Human.NAIFId = -10001001;
+SC_Human.NAIFIdReferenceFrame = -9001001;
+SC_Human.Id = 'SatId';
+SC_Human.Attitude = CoordinateSystemFixed;
+SC_Human.SPADSRPInterpolationMethod = Bilinear;
+SC_Human.SPADDragInterpolationMethod = Bilinear;
+SC_Human.AttitudeCoordinateSystem = EarthMJ2000Eq;
+SC_Human.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- ForceModels
+%----------------------------------------
+
+Create ForceModel DefaultProp_ForceModel;
+DefaultProp_ForceModel.CentralBody = Earth;
+DefaultProp_ForceModel.PrimaryBodies = {Earth};
+DefaultProp_ForceModel.PointMasses = {Sun, Luna};
+DefaultProp_ForceModel.Drag.AtmosphereModel = NRLMSISE00;
+DefaultProp_ForceModel.Drag.HistoricWeatherSource = 'ConstantFluxAndGeoMag';
+DefaultProp_ForceModel.Drag.PredictedWeatherSource = 'ConstantFluxAndGeoMag';
+DefaultProp_ForceModel.Drag.F107 = 150;
+DefaultProp_ForceModel.Drag.F107A = 150;
+DefaultProp_ForceModel.Drag.MagneticIndex = 3;
+DefaultProp_ForceModel.Drag.DragModel = 'SPADFile';
+DefaultProp_ForceModel.SRP = On;
+DefaultProp_ForceModel.SRP.Flux = 1367;
+DefaultProp_ForceModel.SRP.SRPModel = 'SPADFile';
+DefaultProp_ForceModel.SRP.Nominal_Sun = 149597870.691;
+DefaultProp_ForceModel.RelativisticCorrection = On;
+DefaultProp_ForceModel.ErrorControl = RSSStep;
+DefaultProp_ForceModel.GravityField.Earth.Degree = 20;
+DefaultProp_ForceModel.GravityField.Earth.Order = 20;
+DefaultProp_ForceModel.GravityField.Earth.StmLimit = 100;
+DefaultProp_ForceModel.GravityField.Earth.PotentialFile = 'EGM96.cof';
+DefaultProp_ForceModel.GravityField.Earth.TideModel = 'SolidAndPole';
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator DefaultProp;
+DefaultProp.FM = DefaultProp_ForceModel;
+DefaultProp.Type = RungeKutta89;
+DefaultProp.InitialStepSize = 60;
+DefaultProp.Accuracy = 9.999999999999999e-12;
+DefaultProp.MinStep = 0.001;
+DefaultProp.MaxStep = 60;
+DefaultProp.MaxStepAttempts = 50;
+DefaultProp.StopIfAccuracyIsViolated = true;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create ReportFile ReportFile1;
+ReportFile1.Filename = 'ODC_2026_Team54.txt';
+ReportFile1.Precision = 16;
+ReportFile1.Add = {SC_Alien.ElapsedSecs, SC_Alien.EarthMJ2000Eq.X, SC_Alien.EarthMJ2000Eq.Y, SC_Alien.EarthMJ2000Eq.Z, SC_Alien.EarthMJ2000Eq.VX, SC_Alien.EarthMJ2000Eq.VY, SC_Alien.EarthMJ2000Eq.VZ, SC_Human.ElapsedSecs, SC_Human.EarthMJ2000Eq.X, SC_Human.EarthMJ2000Eq.Y, SC_Human.EarthMJ2000Eq.Z, SC_Human.EarthMJ2000Eq.VX, SC_Human.EarthMJ2000Eq.VY, SC_Human.EarthMJ2000Eq.VZ};
+ReportFile1.WriteHeaders = true;
+ReportFile1.LeftJustify = On;
+ReportFile1.ZeroFill = Off;
+ReportFile1.FixedWidth = true;
+ReportFile1.Delimiter = ' ';
+ReportFile1.ColumnWidth = 23;
+ReportFile1.WriteReport = true;
+ReportFile1.AppendToExistingFile = false;
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+% Maneuvers added by OrbitWin; every other line is the organizer's.
+Create ImpulsiveBurn ImpulsiveBurn1;
+ImpulsiveBurn1.CoordinateSystem = Local;
+ImpulsiveBurn1.Origin = Earth;
+ImpulsiveBurn1.Axes = VNB;
+ImpulsiveBurn1.Element1 = 0.03990452035902712;
+ImpulsiveBurn1.Element2 = 0.004567464663709761;
+ImpulsiveBurn1.Element3 = -0.24573922666401365;
+ImpulsiveBurn1.DecrementMass = false;
+ImpulsiveBurn1.Isp = 300;
+ImpulsiveBurn1.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn2;
+ImpulsiveBurn2.CoordinateSystem = Local;
+ImpulsiveBurn2.Origin = Earth;
+ImpulsiveBurn2.Axes = VNB;
+ImpulsiveBurn2.Element1 = 0.07610959847011634;
+ImpulsiveBurn2.Element2 = 0.02523827519614745;
+ImpulsiveBurn2.Element3 = -0.23573578108935206;
+ImpulsiveBurn2.DecrementMass = false;
+ImpulsiveBurn2.Isp = 300;
+ImpulsiveBurn2.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn3;
+ImpulsiveBurn3.CoordinateSystem = Local;
+ImpulsiveBurn3.Origin = Earth;
+ImpulsiveBurn3.Axes = VNB;
+ImpulsiveBurn3.Element1 = 0.05924870443859017;
+ImpulsiveBurn3.Element2 = 0.02759868259435449;
+ImpulsiveBurn3.Element3 = -0.1220836547937276;
+ImpulsiveBurn3.DecrementMass = false;
+ImpulsiveBurn3.Isp = 300;
+ImpulsiveBurn3.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn4;
+ImpulsiveBurn4.CoordinateSystem = Local;
+ImpulsiveBurn4.Origin = Earth;
+ImpulsiveBurn4.Axes = VNB;
+ImpulsiveBurn4.Element1 = 0.03441487774228899;
+ImpulsiveBurn4.Element2 = 0.08178300914538059;
+ImpulsiveBurn4.Element3 = -0.06919584347556547;
+ImpulsiveBurn4.DecrementMass = false;
+ImpulsiveBurn4.Isp = 300;
+ImpulsiveBurn4.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn5;
+ImpulsiveBurn5.CoordinateSystem = Local;
+ImpulsiveBurn5.Origin = Earth;
+ImpulsiveBurn5.Axes = VNB;
+ImpulsiveBurn5.Element1 = 0.07496687044731576;
+ImpulsiveBurn5.Element2 = 0.18106061904034532;
+ImpulsiveBurn5.Element3 = -0.15361647231995676;
+ImpulsiveBurn5.DecrementMass = false;
+ImpulsiveBurn5.Isp = 300;
+ImpulsiveBurn5.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn6;
+ImpulsiveBurn6.CoordinateSystem = Local;
+ImpulsiveBurn6.Origin = Earth;
+ImpulsiveBurn6.Axes = VNB;
+ImpulsiveBurn6.Element1 = 0.07817051746851815;
+ImpulsiveBurn6.Element2 = 0.17588351286624165;
+ImpulsiveBurn6.Element3 = -0.1579726561797973;
+ImpulsiveBurn6.DecrementMass = false;
+ImpulsiveBurn6.Isp = 300;
+ImpulsiveBurn6.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn7;
+ImpulsiveBurn7.CoordinateSystem = Local;
+ImpulsiveBurn7.Origin = Earth;
+ImpulsiveBurn7.Axes = VNB;
+ImpulsiveBurn7.Element1 = 0.08306444745874275;
+ImpulsiveBurn7.Element2 = 0.1663848553503874;
+ImpulsiveBurn7.Element3 = -0.16558193584558115;
+ImpulsiveBurn7.DecrementMass = false;
+ImpulsiveBurn7.Isp = 300;
+ImpulsiveBurn7.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn8;
+ImpulsiveBurn8.CoordinateSystem = Local;
+ImpulsiveBurn8.Origin = Earth;
+ImpulsiveBurn8.Axes = VNB;
+ImpulsiveBurn8.Element1 = 0.09018619360586903;
+ImpulsiveBurn8.Element2 = 0.1528265610106941;
+ImpulsiveBurn8.Element3 = -0.17467539246412195;
+ImpulsiveBurn8.DecrementMass = false;
+ImpulsiveBurn8.Isp = 300;
+ImpulsiveBurn8.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn9;
+ImpulsiveBurn9.CoordinateSystem = Local;
+ImpulsiveBurn9.Origin = Earth;
+ImpulsiveBurn9.Axes = VNB;
+ImpulsiveBurn9.Element1 = 0.09949197004823296;
+ImpulsiveBurn9.Element2 = 0.1359221859260225;
+ImpulsiveBurn9.Element3 = -0.18337804467541638;
+ImpulsiveBurn9.DecrementMass = false;
+ImpulsiveBurn9.Isp = 300;
+ImpulsiveBurn9.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn10;
+ImpulsiveBurn10.CoordinateSystem = Local;
+ImpulsiveBurn10.Origin = Earth;
+ImpulsiveBurn10.Axes = VNB;
+ImpulsiveBurn10.Element1 = 0.11265283152438202;
+ImpulsiveBurn10.Element2 = 0.11955417342725477;
+ImpulsiveBurn10.Element3 = -0.18712867007925543;
+ImpulsiveBurn10.DecrementMass = false;
+ImpulsiveBurn10.Isp = 300;
+ImpulsiveBurn10.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn11;
+ImpulsiveBurn11.CoordinateSystem = Local;
+ImpulsiveBurn11.Origin = Earth;
+ImpulsiveBurn11.Axes = VNB;
+ImpulsiveBurn11.Element1 = 0.1387978104618191;
+ImpulsiveBurn11.Element2 = 0.11566818341432902;
+ImpulsiveBurn11.Element3 = -0.17133895983284073;
+ImpulsiveBurn11.DecrementMass = false;
+ImpulsiveBurn11.Isp = 300;
+ImpulsiveBurn11.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn12;
+ImpulsiveBurn12.CoordinateSystem = Local;
+ImpulsiveBurn12.Origin = Earth;
+ImpulsiveBurn12.Axes = VNB;
+ImpulsiveBurn12.Element1 = 0.16608142718607247;
+ImpulsiveBurn12.Element2 = 0.1165544700979629;
+ImpulsiveBurn12.Element3 = -0.14433646470655329;
+ImpulsiveBurn12.DecrementMass = false;
+ImpulsiveBurn12.Isp = 300;
+ImpulsiveBurn12.GravitationalAccel = 9.81;
+
+Create ImpulsiveBurn ImpulsiveBurn13;
+ImpulsiveBurn13.CoordinateSystem = Local;
+ImpulsiveBurn13.Origin = Earth;
+ImpulsiveBurn13.Axes = VNB;
+ImpulsiveBurn13.Element1 = 0.18670023053858306;
+ImpulsiveBurn13.Element2 = 0.11572547705686109;
+ImpulsiveBurn13.Element3 = -0.11726737771762259;
+ImpulsiveBurn13.DecrementMass = false;
+ImpulsiveBurn13.Isp = 300;
+ImpulsiveBurn13.GravitationalAccel = 9.81;
+
+BeginMissionSequence;
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 0.0010010012192320022, SC_Human.ElapsedSecs = 0.0010010012192320022};
+Maneuver ImpulsiveBurn1(SC_Human);
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 101.0, SC_Human.ElapsedSecs = 101.0};
+Maneuver ImpulsiveBurn2(SC_Human);
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 101.0, SC_Human.ElapsedSecs = 101.0};
+Maneuver ImpulsiveBurn3(SC_Human);
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 871.8008459559492, SC_Human.ElapsedSecs = 871.8008459559492};
+Maneuver ImpulsiveBurn4(SC_Human);
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 101.0, SC_Human.ElapsedSecs = 101.0};
+Maneuver ImpulsiveBurn5(SC_Human);
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 101.0, SC_Human.ElapsedSecs = 101.0};
+Maneuver ImpulsiveBurn6(SC_Human);
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 101.0000000000473, SC_Human.ElapsedSecs = 101.0000000000473};
+Maneuver ImpulsiveBurn7(SC_Human);
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 101.0, SC_Human.ElapsedSecs = 101.0};
+Maneuver ImpulsiveBurn8(SC_Human);
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 101.00000000003661, SC_Human.ElapsedSecs = 101.00000000003661};
+Maneuver ImpulsiveBurn9(SC_Human);
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 101.0, SC_Human.ElapsedSecs = 101.0};
+Maneuver ImpulsiveBurn10(SC_Human);
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 101.0, SC_Human.ElapsedSecs = 101.0};
+Maneuver ImpulsiveBurn11(SC_Human);
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 101.0, SC_Human.ElapsedSecs = 101.0};
+Maneuver ImpulsiveBurn12(SC_Human);
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 101.0, SC_Human.ElapsedSecs = 101.0};
+Maneuver ImpulsiveBurn13(SC_Human);
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Alien.ElapsedSecs = 3808.9451530427477, SC_Human.ElapsedSecs = 3808.9451530427477};

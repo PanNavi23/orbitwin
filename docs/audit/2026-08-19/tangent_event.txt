@@ -1,0 +1,1 @@
+EventResult(first_entry_time_s=None, minimum_distance_km=5.0, minimum_distance_time_s=0.4999666460414013, distance_at_end_km=5.0000000000025)

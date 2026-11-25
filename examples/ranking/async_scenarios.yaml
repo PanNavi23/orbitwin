@@ -1,0 +1,81 @@
+# Asynchronous-start rehearsals, built by scripts/build_async_rehearsals.py on
+# GMAT R2026a from R1 and R2: one craft's epoch moved 1800 s earlier, its state
+# where GMAT's section 7 model flies it back to in that time. At the later
+# epoch, 02:00:00 UTC, the geometry is R1's or R2's: GMAT's alignment returns
+# the early craft there to within 5e-9 km. R9 also moves SC_Alien 1800 s later
+# (late_moved_s), so at its 02:30:00 the geometry is R1's flown on 1800 s.
+#
+# horizon_s is T_max from the earlier craft's epoch, as the organizer answered
+# Team 54 in writing on 2026-11-04 18:17 (「從比較早開始的開始算」): the source's
+# T_max plus the 1800 s the earlier epoch moved, whichever craft has it. SC_Alien reaches
+# the boundary at the same instant as in the source, which is 1800 s later
+# from the earlier epoch. R8 took SC_Alien's epoch, 6711.667 s, until then.
+# `orbitwin inspect` checks T_max against the template's goal and the boundary
+# each row carries (docs/ASYNC_START_AND_INSERTION.md).
+#
+# GMAT's data files the build read. R6's EarthFixed insertion and R8's flight
+# back depend on Earth's orientation, so a new EOP file moves them off R1's
+# geometry (by 3.8 m for R6 with UT1-UTC 10 ms off): rebuild with
+# scripts/build_async_rehearsals.py after refreshing them.
+built_with:
+  EOP_FILE: 52c95d6871066e892463328424ca34f5e9cedde92c747465a40f7cd0ecd86ed3
+  LEAP_SECS_FILE: 3524e1ae34d67e858873a89e59983bbc5bd100221da898e796c1b36036a310c3
+  LSK_FILE: 678e32bdb5a744117a467cd9601cd6b373f0e9bc9bbde1371d5eee39600a039b
+  NUTATION_COEFF_FILE: 633423d201aaed4cf4bf49427f85c5c3ed0e6c6f394f68d5c369dac673e31566
+  EARTH_LATEST_PCK_FILE: 94b3cedf59698eedf429ed50e25a2c9cec3e916cbc1bc5ce405671ce11b3a527
+  EARTH_PCK_CURRENT_FILE: 6d899c83542e32dfd77f3b3b79383db88860adca59adf60f4823780760589a52
+  EARTH_PCK_PREDICTED_FILE: f5ed4d1f460dbcf40bf24f657ab9021718048e18fb723093bfd229066b4e3a49
+  EGM96_FILE: 3e8806223250224d3c1333a010eb5c2cc5a212a56ccee4024db81b9d889db5ea
+  PLANETARY_SPK_FILE: d6f02ca7f99bcea29c472e4955b52faccd026ae3d5dbc7bd6306979b5b57ea99
+  CSSI_FLUX_FILE: 47aef46938f4b639965cd73d9406c9580f4042fbd938467b40a26ff0d4b354cf
+  SPAD_SRP_FILE: 5168dea005333255ed8bfff02e04f3aa0f915eef44e45bb65e6d1ca5901e531c
+  script:SC_Alien.SPADDragFile: 5168dea005333255ed8bfff02e04f3aa0f915eef44e45bb65e6d1ca5901e531c
+  script:SC_Human.SPADDragFile: 5168dea005333255ed8bfff02e04f3aa0f915eef44e45bb65e6d1ca5901e531c
+scenarios:
+  - script: R6_InsertedLate_Aligned.script
+    from: R1_NearPlane_Reachable.script
+    early: SC_Alien
+    lead_s: 1800
+    horizon_s: 8511.667
+    policy:
+      mission_time_origin: earliest
+      closest_approach_window: after_alignment
+      # Its source's boundary, read by the T_max check and the time-origin evidence.
+      mission_boundary_km: 17000
+  # The ranking profiles set add_epoch_alignment too since the 2026-11-03 sign-off.
+  - script: R7_NoAlignment_NearMiss.script
+    from: R2_SteepPlane_NearMiss.script
+    early: SC_Alien
+    lead_s: 1800
+    horizon_s: 7591.381
+    policy:
+      mission_time_origin: earliest
+      closest_approach_window: after_alignment
+      # Its source's boundary, read by the T_max check and the time-origin evidence.
+      mission_boundary_km: 21000
+      # The template has no alignment; signed off 2026-11-03 (COMPETITION_POLICY.md).
+      add_epoch_alignment: true
+  - script: R8_PursuerFirst_Aligned.script
+    from: R1_NearPlane_Reachable.script
+    early: SC_Human
+    lead_s: 1800
+    horizon_s: 8511.667
+    policy:
+      mission_time_origin: earliest
+      closest_approach_window: after_alignment
+      # Its source's boundary, read by the T_max check and the time-origin evidence.
+      mission_boundary_km: 17000
+  # R8 with SC_Alien also 1800 s later, flown on by GMAT: a 3600 s head start
+  # for burns before SC_Alien's epoch (policy.head_start_burns). late_moved_s is
+  # how far the later craft moved from its source epoch.
+  - script: R9_PursuerFirst_LongHeadStart.script
+    from: R1_NearPlane_Reachable.script
+    early: SC_Human
+    lead_s: 3600
+    late_moved_s: 1800
+    horizon_s: 8511.667
+    policy:
+      mission_time_origin: earliest
+      closest_approach_window: after_alignment
+      # Its source's boundary, read by the T_max check and the time-origin evidence.
+      mission_boundary_km: 17000

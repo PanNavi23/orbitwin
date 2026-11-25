@@ -1,0 +1,63 @@
+% Synthetic OOD scenario: the shape the competition template is expected to take.
+% The mission sequence is a single long Propagate and nothing declares an
+% ImpulsiveBurn, so every maneuver the preliminary rules allow is still to be
+% written. Kept ASCII on purpose: GMAT R2026a refuses to interpret a script
+% containing any byte above 127.
+Create Spacecraft Pursuer;
+Pursuer.DateFormat = UTCGregorian;
+Pursuer.Epoch = '26 Jun 2026 05:00:00.000';
+Pursuer.CoordinateSystem = EarthMJ2000Eq;
+Pursuer.DisplayStateType = Keplerian;
+Pursuer.SMA = 7000;
+Pursuer.ECC = 0;
+Pursuer.INC = 28;
+Pursuer.RAAN = 15;
+Pursuer.AOP = 0;
+Pursuer.TA = 300;
+
+Create Spacecraft AlienSC;
+AlienSC.DateFormat = UTCGregorian;
+AlienSC.Epoch = '26 Jun 2026 05:00:00.000';
+AlienSC.CoordinateSystem = EarthMJ2000Eq;
+AlienSC.DisplayStateType = Keplerian;
+AlienSC.SMA = 9000;
+AlienSC.ECC = 0;
+AlienSC.INC = 43;
+AlienSC.RAAN = 65;
+AlienSC.AOP = 0;
+AlienSC.TA = 20;
+
+Create ForceModel FM;
+FM.CentralBody = Earth;
+FM.PrimaryBodies = {Earth};
+FM.Drag = None;
+FM.SRP = Off;
+FM.RelativisticCorrection = Off;
+FM.ErrorControl = RSSStep;
+FM.GravityField.Earth.Degree = 0;
+FM.GravityField.Earth.Order = 0;
+
+Create Propagator Prop;
+Prop.FM = FM;
+Prop.Type = RungeKutta89;
+Prop.InitialStepSize = 1;
+Prop.Accuracy = 1e-12;
+Prop.MinStep = 0.001;
+Prop.MaxStep = 2;
+Prop.MaxStepAttempts = 50;
+Prop.StopIfAccuracyIsViolated = true;
+
+Create ReportFile OfficialReport;
+OfficialReport.Filename = 'OfficialReport.txt';
+OfficialReport.Precision = 16;
+OfficialReport.Add = {Pursuer.A1ModJulian, Pursuer.EarthMJ2000Eq.X};
+OfficialReport.WriteHeaders = true;
+OfficialReport.LeftJustify = On;
+OfficialReport.ZeroFill = Off;
+OfficialReport.FixedWidth = true;
+OfficialReport.ColumnWidth = 23;
+OfficialReport.WriteReport = true;
+OfficialReport.AppendToExistingFile = false;
+
+BeginMissionSequence;
+Propagate Prop(Pursuer, AlienSC) {Pursuer.ElapsedSecs = 33988.71424199411, AlienSC.ElapsedSecs = 33988.71424199411};

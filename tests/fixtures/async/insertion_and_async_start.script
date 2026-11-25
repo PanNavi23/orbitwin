@@ -1,0 +1,53 @@
+%General Mission Analysis Tool(GMAT) Script
+% Probe of the organizer's 2026-11-01 tutorial: SC_Alien starts at 00:00 in
+% EarthMJ2000Eq Keplerian; SC_Human is inserted at 15:00 from an EarthFixed
+% SphericalAZFPA state; SC_Alien is propagated alone up to SC_Human's epoch.
+
+Create Spacecraft SC_Alien;
+SC_Alien.DateFormat = UTCGregorian;
+SC_Alien.Epoch = '01 Jan 2000 00:00:00.000';
+SC_Alien.CoordinateSystem = EarthMJ2000Eq;
+SC_Alien.DisplayStateType = Keplerian;
+SC_Alien.SMA = 7000;
+SC_Alien.ECC = 0;
+SC_Alien.INC = 0;
+SC_Alien.RAAN = 0;
+SC_Alien.AOP = 0;
+SC_Alien.TA = 0;
+
+Create Spacecraft SC_Human;
+SC_Human.DateFormat = UTCGregorian;
+SC_Human.Epoch = '01 Jan 2000 15:00:00.000';
+SC_Human.CoordinateSystem = EarthFixed;
+SC_Human.DisplayStateType = SphericalAZFPA;
+SC_Human.RMAG = 6871;
+SC_Human.RA = 120;
+SC_Human.DEC = 23.5;
+SC_Human.VMAG = 7.2;
+SC_Human.AZI = 90;
+SC_Human.FPA = 90;
+
+Create ForceModel DefaultProp_ForceModel;
+DefaultProp_ForceModel.CentralBody = Earth;
+DefaultProp_ForceModel.PointMasses = {Earth};
+DefaultProp_ForceModel.Drag = None;
+DefaultProp_ForceModel.SRP = Off;
+
+Create Propagator DefaultProp;
+DefaultProp.FM = DefaultProp_ForceModel;
+DefaultProp.Type = RungeKutta89;
+DefaultProp.InitialStepSize = 1;
+DefaultProp.Accuracy = 9.999999999999999e-12;
+DefaultProp.MinStep = 0.001;
+DefaultProp.MaxStep = 1;
+DefaultProp.MaxStepAttempts = 50;
+
+Create ReportFile ReportFile1;
+ReportFile1.Filename = 'ODC_2026_TeamXX.txt';
+ReportFile1.Add = {SC_Alien.UTCModJulian, SC_Human.UTCModJulian, SC_Alien.ElapsedSecs, SC_Human.ElapsedSecs, SC_Human.Earth.Altitude, SC_Human.Earth.RMAG};
+ReportFile1.WriteHeaders = true;
+ReportFile1.Precision = 16;
+
+BeginMissionSequence;
+Propagate DefaultProp(SC_Alien) {SC_Alien.UTCModJulian = SC_Human.UTCModJulian};
+Propagate DefaultProp(SC_Alien, SC_Human) {SC_Human.ElapsedSecs = 3000};

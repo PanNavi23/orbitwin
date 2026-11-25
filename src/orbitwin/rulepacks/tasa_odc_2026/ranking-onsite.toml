@@ -1,0 +1,45 @@
+# 排位賽規則, header "2026/11/04 修訂版 / 2026/11/08 排位賽場地版". Beside the 2026/11/04
+# rules it adds §4 入軌時刻 (a team sets SC_Human's epoch) and renumbers the sections.
+format = 1
+kind = "interception"
+id = "tasa-odc-2026/ranking-onsite"
+name = "ranking-onsite"
+historical = false
+
+impulse_limit_km_s = 0.25                   # §4 機動約束 1
+impulse_epsilon_km_s = 1.0e-8               # §6 note (a): ε_v = 1e-5 m/s
+over_impulse_limit = "disqualify"           # §6 note (a)
+impulse_clause = "§6 note (a)"
+min_separation_s = 100.0                    # §4 機動約束 1
+penalty_points = 10.0                       # §6 note (d): 每次違規機動扣 10 分
+total_dv_limit_km_s = 3.0                   # §4 機動約束 3, §6 note (c), no tolerance
+total_clause = "§6 note (c)"
+intercept_radius_km = 5.0                   # §5
+horizon = "announced"                       # §5: 10 Nov 2026 07:43:24 UTC, 96,204 s
+miss_scored = true                          # §5 eq. (2), (3)
+miss_ranked = true                          # §6 notes: only (a)-(c) are not ranked
+miss_distance = "closest-approach"          # §5 eq. (2): over [0, T_max]
+distance_term = "LOGISTIC"                  # §6 eq. (5)
+distance_clause = "§6 eq. (5)"
+score_units = ["s", "m/s"]                  # §6, below eq. (6)
+earth_crossing = "disqualify-before-interception"
+earth_crossing_clause = "§6 note (b)"       # judged on SC_Human.Earth.Altitude < 0 (§4 軌跡約束)
+# §3.4 interpolates between report rows for the interception. The code scores the last
+# row, as the preliminary's validator did; a hit's last row is no earlier than that.
+completion_time = "last-report-row"
+target_forces = "every external force of §10"  # §10 擾動模型
+advance = 4                                 # §8
+time_origin = "earliest"
+time_origin_source = "§4 入軌時刻: 任務起始時刻 (t = 0) 為 SC_Alien之 Epoch; SC_Human's may not be earlier"
+report_must_carry_team = true               # §2.3: ReportFile1 is ODC_2026_RR_TeamXX.txt
+separation_clause = "§6 note (d)"
+burn_clauses = "§6 note (a), (c), (d)"
+
+pursuer_epoch = "at-or-after-target"         # §4 入軌時刻
+pursuer_epoch_clause = "§4 入軌時刻: SC_Human之 Epoch 由參賽隊伍自訂，但不得早於 SC_Alien之 Epoch"
+
+[source]
+document = "ODC_2026_RR_rules_onsite.pdf"
+sha256 = "d7a4f35fdaf961163765a6e7381c03ebfde9880fa5a6a2eea3722f71b5d0bfde"
+header_date = "2026/11/08"
+received = "2026-11-11"

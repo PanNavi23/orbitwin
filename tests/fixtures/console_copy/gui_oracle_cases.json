@@ -1,0 +1,1065 @@
+{
+ "base": "examples/two_burn_rendezvous.script",
+ "base_sha256": "c9f423031b4bf0be23892c5516a52d77b564e3c83ee75d8a6c336a7f2327770a",
+ "base_edits": [
+  [
+   "DefaultOrbitView.ShowPlot = true;",
+   "DefaultOrbitView.ShowPlot = false;"
+  ],
+  [
+   "{HumanSC.ElapsedSecs = 1000, AlienSC.ElapsedSecs = 1000, OrbitColor = [0 128 255]}",
+   "{HumanSC.ElapsedSecs = 20, AlienSC.ElapsedSecs = 20, OrbitColor = [0 128 255]}"
+  ],
+  [
+   "{HumanSC.ElapsedSecs = 3728.5, AlienSC.ElapsedSecs = 3728.5, OrbitColor = [255 128 0]}",
+   "{HumanSC.ElapsedSecs = 20, AlienSC.ElapsedSecs = 20, OrbitColor = [255 128 0]}"
+  ],
+  [
+   "{HumanSC.ElapsedSecs = 1000, AlienSC.ElapsedSecs = 1000, OrbitColor = [0 200 0]}",
+   "{HumanSC.ElapsedSecs = 20, AlienSC.ElapsedSecs = 20, OrbitColor = [0 200 0]}"
+  ]
+ ],
+ "cases": [
+  {
+   "name": "G01_upperleft_3",
+   "base": "tests/fixtures/report_bind/R1_openframes.script",
+   "base_sha256": "9ba20d2d631b67f77c98ab85826f82526ed201fcabe44458177868215596c2b5",
+   "base_edits": [
+    [
+     "DefaultOrbitView.ShowPlot = true;",
+     "DefaultOrbitView.ShowPlot = false;"
+    ],
+    [
+     "{SC_Alien.ElapsedSecs = 6711.667, SC_Human.ElapsedSecs = 6711.667}",
+     "{SC_Alien.ElapsedSecs = 60, SC_Human.ElapsedSecs = 60}"
+    ]
+   ],
+   "edits": [
+    [
+     "DefaultOrbitView.UpperLeft = [ 0.05 0.05 ];",
+     "DefaultOrbitView.UpperLeft = [ 0.1 0.2 0.3 ];"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "G06_solveriterlastn_neg",
+   "base": "tests/fixtures/report_bind/R1_openframes.script",
+   "base_sha256": "9ba20d2d631b67f77c98ab85826f82526ed201fcabe44458177868215596c2b5",
+   "base_edits": [
+    [
+     "DefaultOrbitView.ShowPlot = true;",
+     "DefaultOrbitView.ShowPlot = false;"
+    ],
+    [
+     "{SC_Alien.ElapsedSecs = 6711.667, SC_Human.ElapsedSecs = 6711.667}",
+     "{SC_Alien.ElapsedSecs = 60, SC_Human.ElapsedSecs = 60}"
+    ]
+   ],
+   "edits": [
+    [
+     "DefaultOrbitView.Axes = On;",
+     "DefaultOrbitView.Axes = On;\nDefaultOrbitView.SolverIterLastN = -1;"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "G07_timesync_spacecraft",
+   "base": "tests/fixtures/report_bind/R1_openframes.script",
+   "base_sha256": "9ba20d2d631b67f77c98ab85826f82526ed201fcabe44458177868215596c2b5",
+   "base_edits": [
+    [
+     "DefaultOrbitView.ShowPlot = true;",
+     "DefaultOrbitView.ShowPlot = false;"
+    ],
+    [
+     "{SC_Alien.ElapsedSecs = 6711.667, SC_Human.ElapsedSecs = 6711.667}",
+     "{SC_Alien.ElapsedSecs = 60, SC_Human.ElapsedSecs = 60}"
+    ]
+   ],
+   "edits": [
+    [
+     "DefaultOrbitView.Axes = On;",
+     "DefaultOrbitView.Axes = On;\nDefaultOrbitView.TimeSyncParent = SC_Human;"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "G12_starcount_neg",
+   "base": "tests/fixtures/report_bind/R1_openframes.script",
+   "base_sha256": "9ba20d2d631b67f77c98ab85826f82526ed201fcabe44458177868215596c2b5",
+   "base_edits": [
+    [
+     "DefaultOrbitView.ShowPlot = true;",
+     "DefaultOrbitView.ShowPlot = false;"
+    ],
+    [
+     "{SC_Alien.ElapsedSecs = 6711.667, SC_Human.ElapsedSecs = 6711.667}",
+     "{SC_Alien.ElapsedSecs = 60, SC_Human.ElapsedSecs = 60}"
+    ]
+   ],
+   "edits": [
+    [
+     "DefaultOrbitView.Axes = On;",
+     "DefaultOrbitView.Axes = On;\nDefaultOrbitView.StarCount = -1;"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "G13_fovy_neg",
+   "base": "tests/fixtures/report_bind/R1_openframes.script",
+   "base_sha256": "9ba20d2d631b67f77c98ab85826f82526ed201fcabe44458177868215596c2b5",
+   "base_edits": [
+    [
+     "DefaultOrbitView.ShowPlot = true;",
+     "DefaultOrbitView.ShowPlot = false;"
+    ],
+    [
+     "{SC_Alien.ElapsedSecs = 6711.667, SC_Human.ElapsedSecs = 6711.667}",
+     "{SC_Alien.ElapsedSecs = 60, SC_Human.ElapsedSecs = 60}"
+    ]
+   ],
+   "edits": [
+    [
+     "DefaultOrbitView_View.FOVy = 45;",
+     "DefaultOrbitView_View.FOVy = -45;"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "G15_axeslength_neg",
+   "base": "tests/fixtures/report_bind/R1_openframes.script",
+   "base_sha256": "9ba20d2d631b67f77c98ab85826f82526ed201fcabe44458177868215596c2b5",
+   "base_edits": [
+    [
+     "DefaultOrbitView.ShowPlot = true;",
+     "DefaultOrbitView.ShowPlot = false;"
+    ],
+    [
+     "{SC_Alien.ElapsedSecs = 6711.667, SC_Human.ElapsedSecs = 6711.667}",
+     "{SC_Alien.ElapsedSecs = 60, SC_Human.ElapsedSecs = 60}"
+    ]
+   ],
+   "edits": [
+    [
+     "DefaultOrbitView.Axes = On;",
+     "DefaultOrbitView.Axes = On;\nDefaultOrbitView.AxesLength = -1;"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "G18_real_overflow",
+   "base": "tests/fixtures/report_bind/R1_openframes.script",
+   "base_sha256": "9ba20d2d631b67f77c98ab85826f82526ed201fcabe44458177868215596c2b5",
+   "base_edits": [
+    [
+     "DefaultOrbitView.ShowPlot = true;",
+     "DefaultOrbitView.ShowPlot = false;"
+    ],
+    [
+     "{SC_Alien.ElapsedSecs = 6711.667, SC_Human.ElapsedSecs = 6711.667}",
+     "{SC_Alien.ElapsedSecs = 60, SC_Human.ElapsedSecs = 60}"
+    ]
+   ],
+   "edits": [
+    [
+     "DefaultOrbitView.Axes = On;",
+     "DefaultOrbitView.Axes = On;\nDefaultOrbitView.MinStarMag = 1e400;"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "G31_starcatalog",
+   "base": "tests/fixtures/report_bind/R1_openframes.script",
+   "base_sha256": "9ba20d2d631b67f77c98ab85826f82526ed201fcabe44458177868215596c2b5",
+   "base_edits": [
+    [
+     "DefaultOrbitView.ShowPlot = true;",
+     "DefaultOrbitView.ShowPlot = false;"
+    ],
+    [
+     "{SC_Alien.ElapsedSecs = 6711.667, SC_Human.ElapsedSecs = 6711.667}",
+     "{SC_Alien.ElapsedSecs = 60, SC_Human.ElapsedSecs = 60}"
+    ]
+   ],
+   "edits": [
+    [
+     "DefaultOrbitView.Axes = On;",
+     "DefaultOrbitView.Axes = On;\nDefaultOrbitView.StarCatalog = 'nonexistent_catalog';"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "add_cs",
+   "edits": [
+    [
+     "DefaultOrbitView.Add = {HumanSC, AlienSC, Earth};",
+     "DefaultOrbitView.Add = {HumanSC, AlienSC, EarthMJ2000Eq};"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "add_luna",
+   "edits": [
+    [
+     "DefaultOrbitView.Add = {HumanSC, AlienSC, Earth};",
+     "DefaultOrbitView.Add = {HumanSC, AlienSC, Earth, Luna};"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "add_sun_ssb",
+   "edits": [
+    [
+     "DefaultOrbitView.Add = {HumanSC, AlienSC, Earth};",
+     "DefaultOrbitView.Add = {HumanSC, AlienSC, Earth, Sun, SolarSystemBarycenter};"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "add_unknown",
+   "edits": [
+    [
+     "DefaultOrbitView.Add = {HumanSC, AlienSC, Earth};",
+     "DefaultOrbitView.Add = {HumanSC, AlienSC, NoSuchBody};"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "axes_false",
+   "edits": [
+    [
+     "DefaultOrbitView.Axes = On;",
+     "DefaultOrbitView.Axes = false;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "axes_mixedcase",
+   "edits": [
+    [
+     "DefaultOrbitView.Axes = On;",
+     "DefaultOrbitView.Axes = oFf;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "bad_value",
+   "edits": [
+    [
+     "DefaultOrbitView.AxesLength = 12756.2726;",
+     "DefaultOrbitView.AxesLength = abc;"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "bool_as_onoff",
+   "edits": [
+    [
+     "DefaultGroundTrackPlot.ShowPlot = true;",
+     "DefaultGroundTrackPlot.ShowPlot = On;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "cs_craft",
+   "edits": [
+    [
+     "DefaultOrbitView.CoordinateSystem = EarthMJ2000Eq;",
+     "DefaultOrbitView.CoordinateSystem = HumanSC;"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "cs_fixed",
+   "edits": [
+    [
+     "DefaultOrbitView.CoordinateSystem = EarthMJ2000Eq;",
+     "DefaultOrbitView.CoordinateSystem = EarthFixed;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "cs_icrf",
+   "edits": [
+    [
+     "DefaultOrbitView.CoordinateSystem = EarthMJ2000Eq;",
+     "DefaultOrbitView.CoordinateSystem = EarthICRF;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "cs_unknown",
+   "edits": [
+    [
+     "DefaultOrbitView.CoordinateSystem = EarthMJ2000Eq;",
+     "DefaultOrbitView.CoordinateSystem = NoSuchCS;"
+    ]
+   ],
+   "gui": "refused when it ran",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "double_semicolon",
+   "edits": [
+    [
+     "DefaultOrbitView.Axes = On;",
+     "DefaultOrbitView.Axes = On;;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "drawobject_comma",
+   "edits": [
+    [
+     "DefaultOrbitView.DrawObject = [ true true true ];",
+     "DefaultOrbitView.DrawObject = [ true, true, true ];"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "drawobject_mixed",
+   "edits": [
+    [
+     "DefaultOrbitView.DrawObject = [ true true true ];",
+     "DefaultOrbitView.DrawObject = [ TRUE false True ];"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "drawobject_onoff",
+   "edits": [
+    [
+     "DefaultOrbitView.DrawObject = [ true true true ];",
+     "DefaultOrbitView.DrawObject = [ On On On ];"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "enum_lower",
+   "edits": [
+    [
+     "DefaultOrbitView.SolverIterations = Current;",
+     "DefaultOrbitView.SolverIterations = current;"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "field_before_create",
+   "edits": [
+    [
+     "Create OpenFramesInterface DefaultOrbitView;\n",
+     "DefaultOrbitView.Axes = On;\nCreate OpenFramesInterface DefaultOrbitView;\n"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "field_lower",
+   "edits": [
+    [
+     "DefaultOrbitView.Axes = On;",
+     "DefaultOrbitView.axes = On;"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "gt_add_earth",
+   "edits": [
+    [
+     "DefaultGroundTrackPlot.Add = {AlienSC, HumanSC};",
+     "DefaultGroundTrackPlot.Add = {AlienSC, HumanSC, Earth};"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "gt_add_unknown",
+   "edits": [
+    [
+     "DefaultGroundTrackPlot.Add = {AlienSC, HumanSC};",
+     "DefaultGroundTrackPlot.Add = {AlienSC, NoSuchCraft};"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "gt_body_unknown",
+   "edits": [
+    [
+     "DefaultGroundTrackPlot.CentralBody = Earth;",
+     "DefaultGroundTrackPlot.CentralBody = NoSuchBody;"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "lookat_unknown",
+   "edits": [
+    [
+     "DefaultOrbitView_View.ViewFrame = CoordinateSystem;",
+     "DefaultOrbitView_View.ViewFrame = CoordinateSystem;\nDefaultOrbitView_View.LookAtFrame = NoSuchFrame;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "number_dot_exp",
+   "edits": [
+    [
+     "DefaultOrbitView.AxesLength = 12756.2726;",
+     "DefaultOrbitView.AxesLength = 1.27e4;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "on_lower",
+   "edits": [
+    [
+     "DefaultOrbitView.Axes = On;",
+     "DefaultOrbitView.Axes = on;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "on_upper",
+   "edits": [
+    [
+     "DefaultOrbitView.Axes = On;",
+     "DefaultOrbitView.Axes = ON;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "onoff_as_bool",
+   "edits": [
+    [
+     "DefaultOrbitView.Axes = On;",
+     "DefaultOrbitView.Axes = true;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "orig",
+   "edits": [],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "quoted_percent",
+   "edits": [
+    [
+     "DefaultOrbitView.StarCatalog = 'inp_StarsHYGv3.txt';",
+     "DefaultOrbitView.StarCatalog = 'inp_Stars%HYGv3.txt';"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "showplot_number",
+   "edits": [
+    [
+     "DefaultGroundTrackPlot.ShowPlot = true;",
+     "DefaultGroundTrackPlot.ShowPlot = 1;"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "showplot_off",
+   "edits": [
+    [
+     "DefaultGroundTrackPlot.ShowPlot = true;",
+     "DefaultGroundTrackPlot.ShowPlot = off;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "star_catalog_double_quotes_free",
+   "edits": [
+    [
+     "DefaultOrbitView.MinStarMag = -2;",
+     "DefaultOrbitView.MinStarMag = -2.;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "true_cap_array",
+   "edits": [
+    [
+     "DefaultOrbitView.DrawObject = [ true true true ];",
+     "DefaultOrbitView.DrawObject = [ True True True ];"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "true_cap_scalar",
+   "edits": [
+    [
+     "DefaultGroundTrackPlot.ShowPlot = true;",
+     "DefaultGroundTrackPlot.ShowPlot = True;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "true_upper_scalar",
+   "edits": [
+    [
+     "DefaultGroundTrackPlot.ShowPlot = true;",
+     "DefaultGroundTrackPlot.ShowPlot = TRUE;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "unknown_field",
+   "edits": [
+    [
+     "DefaultOrbitView.Axes = On;",
+     "DefaultOrbitView.Axes = On;\nDefaultOrbitView.NoSuchField = 1;"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "vector_label_percent",
+   "edits": [
+    [
+     "Create OpenFramesView DefaultOrbitView_View;",
+     "Create OpenFramesVector V1;\nV1.SourceObject = HumanSC;\nV1.DestinationObject = AlienSC;\nV1.VectorType = 'Relative Position';\nV1.VectorLabel = 'a%b';\nCreate OpenFramesView DefaultOrbitView_View;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "vector_label_plain",
+   "edits": [
+    [
+     "Create OpenFramesView DefaultOrbitView_View;",
+     "Create OpenFramesVector V1;\nV1.SourceObject = HumanSC;\nV1.DestinationObject = AlienSC;\nV1.VectorType = 'Relative Position';\nV1.VectorLabel = 'ab';\nCreate OpenFramesView DefaultOrbitView_View;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "vector_source_unknown",
+   "edits": [
+    [
+     "Create OpenFramesView DefaultOrbitView_View;",
+     "Create OpenFramesVector V1;\nV1.SourceObject = NoSuchCraft;\nV1.DestinationObject = AlienSC;\nCreate OpenFramesView DefaultOrbitView_View;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "vector_type_unquoted",
+   "edits": [
+    [
+     "Create OpenFramesView DefaultOrbitView_View;",
+     "Create OpenFramesVector V1;\nV1.SourceObject = HumanSC;\nV1.DestinationObject = AlienSC;\nV1.VectorType = Body-Fixed;\nCreate OpenFramesView DefaultOrbitView_View;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "view_commented",
+   "edits": [
+    [
+     "Create OpenFramesView DefaultOrbitView_View;\nDefaultOrbitView_View.ViewFrame = CoordinateSystem;\nDefaultOrbitView_View.ViewTrajectory = Off;\nDefaultOrbitView_View.InertialFrame = Off;\nDefaultOrbitView_View.SetDefaultLocation = On;\nDefaultOrbitView_View.DefaultEye = [ 30000 0 0 ];\nDefaultOrbitView_View.DefaultCenter = [ 0 0 0 ];\nDefaultOrbitView_View.DefaultUp = [ 0 0 1 ];\nDefaultOrbitView_View.SetCurrentLocation = On;\nDefaultOrbitView_View.CurrentEye = [ 30000 0 0 ];\nDefaultOrbitView_View.CurrentCenter = [ 0 0 0 ];\nDefaultOrbitView_View.CurrentUp = [ 0 0 1 ];\nDefaultOrbitView_View.FOVy = 45;",
+     "%Create OpenFramesView DefaultOrbitView_View;\n%DefaultOrbitView_View.ViewFrame = CoordinateSystem;\n%DefaultOrbitView_View.ViewTrajectory = Off;\n%DefaultOrbitView_View.InertialFrame = Off;\n%DefaultOrbitView_View.SetDefaultLocation = On;\n%DefaultOrbitView_View.DefaultEye = [ 30000 0 0 ];\n%DefaultOrbitView_View.DefaultCenter = [ 0 0 0 ];\n%DefaultOrbitView_View.DefaultUp = [ 0 0 1 ];\n%DefaultOrbitView_View.SetCurrentLocation = On;\n%DefaultOrbitView_View.CurrentEye = [ 30000 0 0 ];\n%DefaultOrbitView_View.CurrentCenter = [ 0 0 0 ];\n%DefaultOrbitView_View.CurrentUp = [ 0 0 1 ];\n%DefaultOrbitView_View.FOVy = 45;"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "view_is_craft",
+   "edits": [
+    [
+     "DefaultOrbitView.View = {DefaultOrbitView_View};",
+     "DefaultOrbitView.View = {AlienSC};"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "view_unknown",
+   "edits": [
+    [
+     "DefaultOrbitView.View = {DefaultOrbitView_View};",
+     "DefaultOrbitView.View = {NoSuchView};"
+    ]
+   ],
+   "gui": "refused at build",
+   "checker_differs": "The GUI refused it. The checker does not judge whether the GUI takes a plot line: the submitted script must carry the official template's plot lines verbatim (console_copy.assert_plot_lines_unchanged), so the GUI refuses it exactly when it refuses the organizer's template."
+  },
+  {
+   "name": "viewframe_craft",
+   "edits": [
+    [
+     "DefaultOrbitView_View.ViewFrame = CoordinateSystem;",
+     "DefaultOrbitView_View.ViewFrame = HumanSC;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "viewframe_unknown",
+   "edits": [
+    [
+     "DefaultOrbitView_View.ViewFrame = CoordinateSystem;",
+     "DefaultOrbitView_View.ViewFrame = NoSuchFrame;"
+    ]
+   ],
+   "gui": "ran to the end"
+  }
+ ],
+ "command_cases": [
+  {
+   "name": "clearplot_both",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nClearPlot XY DefaultGroundTrackPlot;\n"
+    ],
+    [
+     "Create ReportFile ReportFile1;",
+     "Create XYPlot XY;\nXY.XVariable = HumanSC.A1ModJulian;\nXY.YVariables = {HumanSC.EarthMJ2000Eq.X};\nCreate ReportFile ReportFile1;"
+    ]
+   ],
+   "gui": "refused when it ran"
+  },
+  {
+   "name": "clearplot_gt",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nClearPlot DefaultGroundTrackPlot;\n"
+    ]
+   ],
+   "gui": "refused when it ran"
+  },
+  {
+   "name": "clearplot_of",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nClearPlot DefaultOrbitView;\n"
+    ]
+   ],
+   "gui": "refused when it ran"
+  },
+  {
+   "name": "clearplot_xy",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nClearPlot XY;\n"
+    ],
+    [
+     "Create ReportFile ReportFile1;",
+     "Create XYPlot XY;\nXY.XVariable = HumanSC.A1ModJulian;\nXY.YVariables = {HumanSC.EarthMJ2000Eq.X};\nCreate ReportFile ReportFile1;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "markpoint_both",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nMarkPoint DefaultOrbitView DefaultGroundTrackPlot;\n"
+    ]
+   ],
+   "gui": "refused when it ran"
+  },
+  {
+   "name": "markpoint_gt",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nMarkPoint DefaultGroundTrackPlot;\n"
+    ]
+   ],
+   "gui": "refused when it ran"
+  },
+  {
+   "name": "markpoint_of",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nMarkPoint DefaultOrbitView;\n"
+    ]
+   ],
+   "gui": "refused when it ran"
+  },
+  {
+   "name": "markpoint_xy",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nMarkPoint XY;\n"
+    ],
+    [
+     "Create ReportFile ReportFile1;",
+     "Create XYPlot XY;\nXY.XVariable = HumanSC.A1ModJulian;\nXY.YVariables = {HumanSC.EarthMJ2000Eq.X};\nCreate ReportFile ReportFile1;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "pendown_gt",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nPenDown DefaultGroundTrackPlot;\n"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "pendown_of",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nPenDown DefaultOrbitView;\n"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "pendown_xy",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nPenDown XY;\n"
+    ],
+    [
+     "Create ReportFile ReportFile1;",
+     "Create XYPlot XY;\nXY.XVariable = HumanSC.A1ModJulian;\nXY.YVariables = {HumanSC.EarthMJ2000Eq.X};\nCreate ReportFile ReportFile1;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "penup_both",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nPenUp DefaultOrbitView DefaultGroundTrackPlot;\n"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "penup_comma",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nPenUp DefaultOrbitView, DefaultGroundTrackPlot;\n"
+    ]
+   ],
+   "gui": "refused at build"
+  },
+  {
+   "name": "penup_gt",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nPenUp DefaultGroundTrackPlot;\n"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "penup_lower",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\npenup DefaultGroundTrackPlot;\n"
+    ]
+   ],
+   "gui": "refused at build"
+  },
+  {
+   "name": "penup_none",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nPenUp;\n"
+    ]
+   ],
+   "gui": "refused at build"
+  },
+  {
+   "name": "penup_nosemi",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nPenUp DefaultGroundTrackPlot\n"
+    ]
+   ],
+   "gui": "ran to the end",
+   "checker_differs": "The parser reads a plot command only with its `;`, which every GUI-saved script writes."
+  },
+  {
+   "name": "penup_of",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nPenUp DefaultOrbitView;\n"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "penup_report",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nPenUp ReportFile1;\n"
+    ]
+   ],
+   "gui": "refused when it ran"
+  },
+  {
+   "name": "penup_semis_comment",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nPenUp DefaultGroundTrackPlot;; % x\n"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "penup_unknown",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nPenUp NoSuch;\n"
+    ]
+   ],
+   "gui": "refused at build"
+  },
+  {
+   "name": "penup_view",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nPenUp DefaultOrbitView_View;\n"
+    ]
+   ],
+   "gui": "refused at build"
+  },
+  {
+   "name": "penup_xy",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nPenUp XY;\n"
+    ],
+    [
+     "Create ReportFile ReportFile1;",
+     "Create XYPlot XY;\nXY.XVariable = HumanSC.A1ModJulian;\nXY.YVariables = {HumanSC.EarthMJ2000Eq.X};\nCreate ReportFile ReportFile1;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "toggle_after",
+   "edits": [
+    [
+     "AlienSC.ElapsedSecs = 20, OrbitColor = [0 200 0]};",
+     "AlienSC.ElapsedSecs = 20, OrbitColor = [0 200 0]};\nToggle DefaultOrbitView Off;"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "toggle_both",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nToggle DefaultOrbitView DefaultGroundTrackPlot Off;\n"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "toggle_comma",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nToggle DefaultOrbitView, DefaultGroundTrackPlot Off;\n"
+    ]
+   ],
+   "gui": "refused at build"
+  },
+  {
+   "name": "toggle_comment",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nToggle DefaultOrbitView Off; % pause\n"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "toggle_lower_cmd",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\ntoggle DefaultOrbitView Off;\n"
+    ]
+   ],
+   "gui": "refused at build"
+  },
+  {
+   "name": "toggle_lower_state",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nToggle DefaultOrbitView off;\n"
+    ]
+   ],
+   "gui": "refused at build"
+  },
+  {
+   "name": "toggle_no_semicolon",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nToggle DefaultOrbitView Off\n"
+    ]
+   ],
+   "gui": "ran to the end",
+   "checker_differs": "The parser reads a Toggle only with its `;`, which every GUI-saved script writes."
+  },
+  {
+   "name": "toggle_no_state",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nToggle DefaultOrbitView;\n"
+    ]
+   ],
+   "gui": "refused at build"
+  },
+  {
+   "name": "toggle_off",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nToggle DefaultOrbitView Off;\n"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "toggle_on",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nToggle DefaultOrbitView On;\n"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "toggle_report",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nToggle ReportFile1 Off;\n"
+    ]
+   ],
+   "gui": "ran to the end",
+   "checker_differs": "A Toggle of a ReportFile changes what the uploaded report holds, so the parser refuses it on purpose."
+  },
+  {
+   "name": "toggle_semis",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nToggle DefaultOrbitView Off;;\n"
+    ]
+   ],
+   "gui": "ran to the end"
+  },
+  {
+   "name": "toggle_unknown",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nToggle NoSuchPlot Off;\n"
+    ]
+   ],
+   "gui": "refused at build"
+  },
+  {
+   "name": "toggle_view",
+   "edits": [
+    [
+     "BeginMissionSequence;\n",
+     "BeginMissionSequence;\nToggle DefaultOrbitView_View Off;\n"
+    ]
+   ],
+   "gui": "refused at build"
+  }
+ ],
+ "measured": "R2026a GUI under xvfb, 2026-11-19, each case's script being its base with base_edits and edits applied (DefaultOrbitView.ShowPlot false, since its window segfaults under xvfb; the flight shortened), run to 'Mission run completed'; only that passes."
+}
